@@ -32,86 +32,6 @@
         padding: 0 20px;
       }
 
-      /* Header */
-      header {
-        background-color: white;
-        box-shadow: var(--shadow);
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-      }
-
-      .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 0;
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--primary);
-        text-decoration: none;
-      }
-
-      .logo i {
-        color: var(--accent);
-        font-size: 2rem;
-      }
-
-      .logo span {
-        color: var(--secondary);
-      }
-
-      nav ul {
-        display: flex;
-        list-style: none;
-        gap: 30px;
-      }
-
-      nav a {
-        text-decoration: none;
-        color: var(--dark);
-        font-weight: 600;
-        transition: var(--transition);
-        padding: 5px 10px;
-        border-radius: 4px;
-      }
-
-      nav a:hover,
-      nav a.active {
-        color: var(--primary);
-        background-color: rgba(74, 111, 165, 0.1);
-      }
-
-      .cta-button {
-        background-color: var(--accent);
-        color: white;
-        padding: 10px 25px;
-        border-radius: 30px;
-        font-weight: 600;
-        transition: var(--transition);
-        border: none;
-        cursor: pointer;
-      }
-
-      .cta-button:hover {
-        background-color: var(--secondary);
-        transform: translateY(-3px);
-        box-shadow: var(--shadow);
-      }
-
-      .mobile-menu {
-        display: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-
       /* Page Header */
       .page-header {
         background: linear-gradient(
@@ -486,15 +406,9 @@
         transition: var(--transition);
       }
 
-      .page-btn.active {
-        background-color: var(--primary);
-        color: white;
-        border-color: var(--primary);
-      }
+  
 
-      .page-btn:hover:not(.active) {
-        background-color: var(--light-gray);
-      }
+  
 
       /* Footer */
       footer {

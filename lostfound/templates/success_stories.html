@@ -14,36 +14,7 @@
   </head>
   <body>
     <!-- Header -->
-    <header>
-      <div class="container header-container">
-        <a href="index.html" class="logo">
-          <i class="fas fa-search"></i>
-          Reclaim<span>a</span>
-        </a>
-
-        <nav>
-          <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'lostItems' %}">Lost Items</a></li>
-            <li><a href="{% url 'found' %}">Found Items</a></li>
-            <li><a href="{% url 'howItWorks' %}">How It Works</a></li>
-            <li>
-              <a href="{% url 'successStories' %}" class="active"
-                >Success Stories</a
-              >
-            </li>
-          </ul>
-        </nav>
-
-        <div class="cta-buttons">
-          <button class="cta-button">Share Your Story</button>
-        </div>
-
-        <div class="mobile-menu">
-          <i class="fas fa-bars"></i>
-        </div>
-      </div>
-    </header>
+    {%include 'includes/header.html'%}
 
     <!-- Page Header -->
     <section class="page-header">

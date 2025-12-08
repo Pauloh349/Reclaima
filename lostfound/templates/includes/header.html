@@ -1,0 +1,45 @@
+{% load static%}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<header class="main-header">
+  <div class="container header-container">
+    <a href="{% url 'home'%}" class="logo">
+      <div class="logo-icon">
+        <i class="fas fa-search-location"></i>
+      </div>
+      <span class="logo-text">Reclaim<span class="logo-accent">a</span></span>
+    </a>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{% url 'home' %}" class="nav-link active">Home</a></li>
+        <li><a href="{% url 'lostItems' %}" class="nav-link">Lost Items</a></li>
+        <li><a href="{% url 'found' %}" class="nav-link">Found Items</a></li>
+        <li>
+          <a href="{% url 'howItWorks' %}" class="nav-link">How It Works</a>
+        </li>
+        <li>
+          <a href="{% url 'successStories' %}" class="nav-link"
+            >Success Stories</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-primary btn-report">
+        <i class="fas fa-plus-circle"></i>
+        <span>Report Item</span>
+      </button>
+      <div class="user-menu">
+        <button class="btn btn-ghost">
+          <i class="fas fa-user-circle"></i>
+          <span>Sign In</span>
+        </button>
+      </div>
+    </div>
+
+    <button class="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
