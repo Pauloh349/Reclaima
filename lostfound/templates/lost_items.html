@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lost Items - Reclaima</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --primary: #4a6fa5;
+        --secondary: #166088;
+        --accent: #ff7e5f;
+        --light: #f8f9fa;
+        --dark: #2d3047;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
+        --success: #28a745;
+        --warning: #ffc107;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        line-height: 1.6;
+        color: var(--dark);
+        background-color: #f5f7fa;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        background-color: white;
+        box-shadow: var(--shadow);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .logo i {
+        color: var(--accent);
+        font-size: 2rem;
+      }
+
+      .logo span {
+        color: var(--secondary);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        transition: var(--transition);
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+
+      nav a:hover,
+      nav a.active {
+        color: var(--primary);
+        background-color: rgba(74, 111, 165, 0.1);
+      }
+
+      .cta-button {
+        background-color: var(--accent);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+      }
+
+      .cta-button:hover {
+        background-color: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      .mobile-menu {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 140px 0 60px;
+        margin-bottom: 40px;
+      }
+
+      .page-title {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+      }
+
+      .page-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin-bottom: 30px;
+      }
+
+      /* Main Content */
+      .main-content {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+        margin-bottom: 80px;
+      }
+
+      /* Filter Sidebar */
+      .filter-sidebar {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        height: fit-content;
+        position: sticky;
+        top: 120px;
+      }
+
+      .filter-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--light-gray);
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .filter-title i {
+        color: var(--primary);
+      }
+
+      .filter-group {
+        margin-bottom: 25px;
+      }
+
+      .filter-group h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .filter-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary);
+      }
+
+      .filter-option label {
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .filter-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: var(--dark);
+      }
+
+      .date-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .date-inputs input {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .filter-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .apply-btn {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .reset-btn {
+        background-color: var(--light-gray);
+        color: var(--dark);
+      }
+
+      /* Lost Items Grid */
+      .items-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+      }
+
+      .items-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .items-count {
+        font-size: 1.2rem;
+        color: var(--dark);
+      }
+
+      .items-count span {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .sort-options {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sort-options select {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        font-size: 1rem;
+        color: var(--dark);
+      }
+
+      .items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      .no-items {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--gray);
+      }
+
+      .no-items i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: var(--light-gray);
+      }
+
+      .no-items h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: var(--dark);
+      }
+
+      /* Item Card */
+      .item-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        border: 1px solid #eee;
+      }
+
+      .item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .item-image {
+        height: 200px;
+        width: 100%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-placeholder {
+        font-size: 3rem;
+        color: var(--light-gray);
+      }
+
+      .item-category {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .item-details {
+        padding: 20px;
+      }
+
+      .item-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--dark);
+        line-height: 1.3;
+      }
+
+      .item-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: var(--gray);
+      }
+
+      .item-meta div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .item-description {
+        color: var(--gray);
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .item-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: center;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .view-btn {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .claim-btn {
+        background-color: var(--accent);
+        color: white;
+      }
+
+      /* Report Section */
+      .report-section {
+        background: white;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: var(--shadow);
+        margin-bottom: 80px;
+        text-align: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid #dee2e6;
+      }
+
+      .report-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .report-text {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 1.1rem;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 40px;
+      }
+
+      .page-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background-color: white;
+        border: 1px solid #ddd;
+        color: var(--dark);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .page-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .page-btn:hover:not(.active) {
+        background-color: var(--light-gray);
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 70px 0 30px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        color: white;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: #bbb;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: white;
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-5px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #bbb;
+        font-size: 0.9rem;
+      }
+
+      /* Modal for Reporting */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        padding: 25px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        color: var(--dark);
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .close-modal:hover {
+        color: var(--dark);
+      }
+
+      .modal-body {
+        padding: 25px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .file-upload {
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .file-upload:hover {
+        border-color: var(--primary);
+        background-color: rgba(74, 111, 165, 0.05);
+      }
+
+      .file-upload i {
+        font-size: 2.5rem;
+        color: var(--gray);
+        margin-bottom: 10px;
+      }
+
+      .modal-footer {
+        padding: 25px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .filter-sidebar {
+          position: static;
+        }
+
+        .items-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          display: none;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        .page-title {
+          font-size: 2.2rem;
+        }
+
+        .items-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .sort-options {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .sort-options select {
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .items-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .item-actions {
+          flex-direction: column;
+        }
+
+        .page-header {
+          padding: 120px 0 40px;
+        }
+
+        .report-section {
+          padding: 30px 20px;
+        }
+
+        .report-title {
+          font-size: 1.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-search"></i>
+          Reclaim<span>a</span>
+        </a>
+
+        <nav>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'lostItems' %}" class="active">Lost Items</a></li>
+            <li><a href="{% url 'found' %}">Found Items</a></li>
+            <li><a href="{% url 'howItWorks' %}">How It Works</a></li>
+            <li><a href="{% url 'successStories' %}">Success Stories</a></li>
+          </ul>
+        </nav>
+
+        <div class="cta-buttons">
+          <button class="cta-button" id="reportItemBtn">Report Item</button>
+        </div>
+
+        <div class="mobile-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <h1 class="page-title">Lost Items</h1>
+        <p class="page-subtitle">
+          Browse through items reported as lost. If you see something that
+          belongs to you, you can claim it directly. If you've lost something,
+          use the filters to narrow down your search or report a new lost item.
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="main-content">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar">
+          <h2 class="filter-title">
+            <i class="fas fa-filter"></i> Filter Results
+          </h2>
+
+          <!-- Search -->
+          <div class="filter-group">
+            <h3>Search</h3>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Type item name or description..."
+              style="
+                width: 100%;
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+              "
+            />
+          </div>
+
+          <!-- Category -->
+          <div class="filter-group">
+            <h3>Category</h3>
+            <div class="filter-options">
+              <div class="filter-option">
+                <input type="checkbox" id="cat-electronics" checked />
+                <label for="cat-electronics">Electronics</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-keys" checked />
+                <label for="cat-keys">Keys & Access</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-wallets" checked />
+                <label for="cat-wallets">Wallets & Purses</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-documents" />
+                <label for="cat-documents">Documents</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-jewelry" />
+                <label for="cat-jewelry">Jewelry & Accessories</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-clothing" />
+                <label for="cat-clothing">Clothing</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-bags" />
+                <label for="cat-bags">Bags & Luggage</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="cat-other" />
+                <label for="cat-other">Other</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="filter-group">
+            <h3>Location</h3>
+            <select
+              id="locationFilter"
+              style="
+                width: 100%;
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+              "
+            >
+              <option value="all">All Locations</option>
+              <option value="downtown">Downtown</option>
+              <option value="north">North District</option>
+              <option value="south">South District</option>
+              <option value="east">East Side</option>
+              <option value="west">West Side</option>
+              <option value="transport">Public Transport</option>
+              <option value="airport">Airport</option>
+            </select>
+          </div>
+
+          <!-- Date Lost -->
+          <div class="filter-group">
+            <h3>Date Lost</h3>
+            <div class="date-inputs">
+              <input type="date" id="dateFrom" />
+              <input type="date" id="dateTo" />
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="filter-group">
+            <h3>Status</h3>
+            <div class="filter-options">
+              <div class="filter-option">
+                <input type="checkbox" id="status-unclaimed" checked />
+                <label for="status-unclaimed">Unclaimed</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="status-claimed" />
+                <label for="status-claimed">Claimed</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Buttons -->
+          <div class="filter-buttons">
+            <button class="filter-btn apply-btn" id="applyFilters">
+              Apply Filters
+            </button>
+            <button class="filter-btn reset-btn" id="resetFilters">
+              Reset
+            </button>
+          </div>
+        </aside>
+
+        <!-- Items Grid -->
+        <main class="items-container">
+          <div class="items-header">
+            <div class="items-count">
+              Showing <span id="itemsShown">8</span> of
+              <span id="itemsTotal">24</span> lost items
+            </div>
+            <div class="sort-options">
+              <span>Sort by:</span>
+              <select id="sortBy">
+                <option value="recent">Most Recent</option>
+                <option value="oldest">Oldest First</option>
+                <option value="location">Location</option>
+                <option value="category">Category</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="items-grid" id="lostItemsGrid">
+            <!-- Item cards will be dynamically generated here -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <!-- Report Section -->
+      <section class="report-section">
+        <h2 class="report-title">Can't Find What You're Looking For?</h2>
+        <p class="report-text">
+          If you've lost something and don't see it listed here, you can report
+          it to our community. The more details you provide, the better chance
+          you have of getting it back.
+        </p>
+        <button class="cta-button" id="openReportModal">
+          Report a Lost Item
+        </button>
+      </section>
+    </div>
+
+    <!-- Report Item Modal -->
+    <div class="modal" id="reportModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Report a Lost Item</h2>
+          <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="reportForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="itemName">Item Name *</label>
+                <input
+                  type="text"
+                  id="itemName"
+                  placeholder="e.g., iPhone 12, Black Wallet, Car Keys"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="itemCategory">Category *</label>
+                <select id="itemCategory" required>
+                  <option value="">Select a category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="keys">Keys & Access</option>
+                  <option value="wallets">Wallets & Purses</option>
+                  <option value="documents">Documents</option>
+                  <option value="jewelry">Jewelry & Accessories</option>
+                  <option value="clothing">Clothing</option>
+                  <option value="bags">Bags & Luggage</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="lostDate">Date Lost *</label>
+                <input type="date" id="lostDate" required />
+              </div>
+              <div class="form-group">
+                <label for="lostLocation">Location Lost *</label>
+                <input
+                  type="text"
+                  id="lostLocation"
+                  placeholder="e.g., Downtown Mall, Central Station, Park Ave"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="itemDescription">Description *</label>
+              <textarea
+                id="itemDescription"
+                rows="4"
+                placeholder="Provide a detailed description of the item, including brand, color, size, distinguishing features, and any contents if applicable..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="contactEmail">Your Email *</label>
+              <input
+                type="email"
+                id="contactEmail"
+                placeholder="We'll use this to contact you if your item is found"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Upload Photos (Optional)</label>
+              <div class="file-upload" id="fileUpload">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag and drop or click to upload photos</p>
+                <p style="font-size: 0.9rem; color: var(--gray)">
+                  Max file size: 5MB each
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="filter-btn reset-btn" id="cancelReport">Cancel</button>
+          <button class="filter-btn apply-btn" id="submitReport">
+            Submit Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-container">
+          <div class="footer-column">
+            <h3>Reclaima</h3>
+            <p>
+              Reconnect with what matters most. Our mission is to create a world
+              where lost items always find their way back home.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="#" class="active">Lost Items</a></li>
+              <li><a href="#">Found Items</a></li>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Success Stories</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+              <li><a href="#">Safety Guidelines</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Partnerships</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Contact Info</h3>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Reclaim Street, City,
+                State 12345
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+              <li><i class="fas fa-envelope"></i> help@reclaima.com</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <p>
+            &copy; 2023 Reclaima. All rights reserved. | Designed with
+            <i class="fas fa-heart" style="color: var(--accent)"></i> to reunite
+            people with their belongings
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Sample lost items data
+      const lostItems = [
+        {
+          id: 1,
+          title: "iPhone 12 Pro - Space Gray",
+          category: "electronics",
+          categoryName: "Electronics",
+          location: "Downtown Coffee Shop",
+          date: "2023-10-15",
+          description:
+            "Lost my iPhone 12 Pro at the downtown coffee shop. It has a black case with a floral pattern on the back. The screen has a small crack on the top left corner.",
+          claimed: false,
+          icon: "fas fa-mobile-alt",
+        },
+        {
+          id: 2,
+          title: "Car Keys with BMW Keychain",
+          category: "keys",
+          categoryName: "Keys & Access",
+          location: "Central Parking Garage",
+          date: "2023-10-18",
+          description:
+            "Set of car keys with a silver BMW keychain. There are 4 keys total on the ring, including a small mailbox key.",
+          claimed: false,
+          icon: "fas fa-key",
+        },
+        {
+          id: 3,
+          title: "Leather Wallet - Brown",
+          category: "wallets",
+          categoryName: "Wallets & Purses",
+          location: "City Park",
+          date: "2023-10-20",
+          description:
+            "Brown leather wallet containing ID, credit cards, and some cash. There's a photo of my family in the clear ID window.",
+          claimed: false,
+          icon: "fas fa-wallet",
+        },
+        {
+          id: 4,
+          title: "Wireless Headphones - Sony WH-1000XM4",
+          category: "electronics",
+          categoryName: "Electronics",
+          location: "Public Bus Route 42",
+          date: "2023-10-22",
+          description:
+            "Sony noise-cancelling headphones in black. The case has a small scratch on the front. Last used on the bus yesterday morning.",
+          claimed: false,
+          icon: "fas fa-headphones",
+        },
+        {
+          id: 5,
+          title: "Silver Bracelet with Heart Charm",
+          category: "jewelry",
+          categoryName: "Jewelry & Accessories",
+          location: "Shopping Mall",
+          date: "2023-10-10",
+          description:
+            "Delicate silver bracelet with a small heart charm. The clasp is broken so it might have fallen off easily.",
+          claimed: true,
+          icon: "fas fa-gem",
+        },
+        {
+          id: 6,
+          title: "Passport & Travel Documents",
+          category: "documents",
+          categoryName: "Documents",
+          location: "Airport Terminal B",
+          date: "2023-10-05",
+          description:
+            "Blue passport with several visa stamps. Also includes boarding passes and some currency exchange receipts.",
+          claimed: false,
+          icon: "fas fa-passport",
+        },
+        {
+          id: 7,
+          title: "Laptop Bag - Black Targus",
+          category: "bags",
+          categoryName: "Bags & Luggage",
+          location: "Train Station",
+          date: "2023-10-25",
+          description:
+            "Black Targus laptop backpack. Contains a laptop charger, some notebooks, and a water bottle in the side pocket.",
+          claimed: false,
+          icon: "fas fa-briefcase",
+        },
+        {
+          id: 8,
+          title: "Men's Watch - Fossil",
+          category: "jewelry",
+          categoryName: "Jewelry & Accessories",
+          location: "Gym Locker Room",
+          date: "2023-10-17",
+          description:
+            "Brown leather strap Fossil watch with a silver face. The band is worn and has my initials engraved on the clasp.",
+          claimed: false,
+          icon: "fas fa-clock",
+        },
+      ];
+
+      // DOM Elements
+      const lostItemsGrid = document.getElementById("lostItemsGrid");
+      const searchInput = document.getElementById("searchInput");
+      const categoryCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][id^="cat-"]'
+      );
+      const locationFilter = document.getElementById("locationFilter");
+      const dateFrom = document.getElementById("dateFrom");
+      const dateTo = document.getElementById("dateTo");
+      const statusCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][id^="status-"]'
+      );
+      const applyFiltersBtn = document.getElementById("applyFilters");
+      const resetFiltersBtn = document.getElementById("resetFilters");
+      const sortBy = document.getElementById("sortBy");
+      const itemsShown = document.getElementById("itemsShown");
+      const itemsTotal = document.getElementById("itemsTotal");
+      const reportModal = document.getElementById("reportModal");
+      const reportItemBtn = document.getElementById("reportItemBtn");
+      const openReportModalBtn = document.getElementById("openReportModal");
+      const closeModalBtn = document.getElementById("closeModal");
+      const cancelReportBtn = document.getElementById("cancelReport");
+      const submitReportBtn = document.getElementById("submitReport");
+      const reportForm = document.getElementById("reportForm");
+
+      // Set default dates for filters
+      const today = new Date().toISOString().split("T")[0];
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const thirtyDaysAgoStr = thirtyDaysAgo.toISOString().split("T")[0];
+
+      dateFrom.value = thirtyDaysAgoStr;
+      dateTo.value = today;
+
+      // Set lost date default to today
+      document.getElementById("lostDate").value = today;
+
+      // Initialize items display
+      function displayItems(items) {
+        lostItemsGrid.innerHTML = "";
+
+        if (items.length === 0) {
+          lostItemsGrid.innerHTML = `
+                    <div class="no-items">
+                        <i class="fas fa-search"></i>
+                        <h3>No Lost Items Found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+          itemsShown.textContent = "0";
+          return;
+        }
+
+        items.forEach((item) => {
+          const itemCard = document.createElement("div");
+          itemCard.className = "item-card";
+          itemCard.innerHTML = `
+                    <div class="item-image">
+                        <div class="item-placeholder">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div class="item-category">
+                            <i class="${item.icon}"></i>
+                            <span>${item.categoryName}</span>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">${item.title}</h3>
+                        <div class="item-meta">
+                            <div><i class="fas fa-map-marker-alt"></i> ${
+                              item.location
+                            }</div>
+                            <div><i class="fas fa-calendar-alt"></i> ${formatDate(
+                              item.date
+                            )}</div>
+                        </div>
+                        <p class="item-description">${item.description}</p>
+                        <div class="item-actions">
+                            <a href="#" class="item-btn view-btn">View Details</a>
+                            ${
+                              item.claimed
+                                ? '<button class="item-btn" style="background-color: var(--success); color: white;" disabled>Claimed</button>'
+                                : '<button class="item-btn claim-btn">I Think This Is Mine</button>'
+                            }
+                        </div>
+                    </div>
+                `;
+
+          lostItemsGrid.appendChild(itemCard);
+        });
+
+        itemsShown.textContent = items.length.toString();
+      }
+
+      // Format date for display
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      // Filter items based on current filter values
+      function filterItems() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategories = Array.from(categoryCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.id.replace("cat-", ""));
+
+        const selectedLocation = locationFilter.value;
+        const dateFromVal = dateFrom.value ? new Date(dateFrom.value) : null;
+        const dateToVal = dateTo.value ? new Date(dateTo.value) : null;
+
+        const selectedStatus = Array.from(statusCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.id.replace("status-", ""));
+
+        // Filter items
+        let filtered = lostItems.filter((item) => {
+          // Search term filter
+          if (
+            searchTerm &&
+            !item.title.toLowerCase().includes(searchTerm) &&
+            !item.description.toLowerCase().includes(searchTerm) &&
+            !item.location.toLowerCase().includes(searchTerm)
+          ) {
+            return false;
+          }
+
+          // Category filter
+          if (
+            selectedCategories.length > 0 &&
+            !selectedCategories.includes(item.category)
+          ) {
+            return false;
+          }
+
+          // Location filter
+          if (
+            selectedLocation !== "all" &&
+            !item.location.toLowerCase().includes(selectedLocation)
+          ) {
+            return false;
+          }
+
+          // Date filter
+          const itemDate = new Date(item.date);
+          if (dateFromVal && itemDate < dateFromVal) return false;
+          if (dateToVal && itemDate > dateToVal) return false;
+
+          // Status filter
+          const itemStatus = item.claimed ? "claimed" : "unclaimed";
+          if (
+            selectedStatus.length > 0 &&
+            !selectedStatus.includes(itemStatus)
+          ) {
+            return false;
+          }
+
+          return true;
+        });
+
+        // Sort items
+        const sortValue = sortBy.value;
+        filtered.sort((a, b) => {
+          if (sortValue === "recent") {
+            return new Date(b.date) - new Date(a.date);
+          } else if (sortValue === "oldest") {
+            return new Date(a.date) - new Date(b.date);
+          } else if (sortValue === "location") {
+            return a.location.localeCompare(b.location);
+          } else if (sortValue === "category") {
+            return a.categoryName.localeCompare(b.categoryName);
+          }
+          return 0;
+        });
+
+        return filtered;
+      }
+
+      // Apply filters and update display
+      function applyFilters() {
+        const filteredItems = filterItems();
+        displayItems(filteredItems);
+      }
+
+      // Reset all filters
+      function resetFilters() {
+        searchInput.value = "";
+
+        categoryCheckboxes.forEach((cb) => {
+          if (
+            cb.id === "cat-electronics" ||
+            cb.id === "cat-keys" ||
+            cb.id === "cat-wallets"
+          ) {
+            cb.checked = true;
+          } else {
+            cb.checked = false;
+          }
+        });
+
+        locationFilter.value = "all";
+
+        dateFrom.value = thirtyDaysAgoStr;
+        dateTo.value = today;
+
+        statusCheckboxes.forEach((cb) => {
+          cb.checked = cb.id === "status-unclaimed";
+        });
+
+        sortBy.value = "recent";
+
+        applyFilters();
+      }
+
+      // Modal functions
+      function openModal() {
+        reportModal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        reportModal.style.display = "none";
+        document.body.style.overflow = "auto";
+        reportForm.reset();
+        document.getElementById("lostDate").value = today;
+      }
+
+      // Initialize page
+      function initPage() {
+        itemsTotal.textContent = lostItems.length.toString();
+        displayItems(lostItems);
+
+        // Add event listeners
+        applyFiltersBtn.addEventListener("click", applyFilters);
+        resetFiltersBtn.addEventListener("click", resetFilters);
+        searchInput.addEventListener("input", applyFilters);
+        sortBy.addEventListener("change", applyFilters);
+
+        // Modal event listeners
+        reportItemBtn.addEventListener("click", openModal);
+        openReportModalBtn.addEventListener("click", openModal);
+        closeModalBtn.addEventListener("click", closeModal);
+        cancelReportBtn.addEventListener("click", closeModal);
+
+        // Close modal when clicking outside
+        reportModal.addEventListener("click", function (e) {
+          if (e.target === reportModal) {
+            closeModal();
+          }
+        });
+
+        // Submit report
+        submitReportBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Basic form validation
+          const itemName = document.getElementById("itemName").value;
+          const itemCategory = document.getElementById("itemCategory").value;
+          const lostDate = document.getElementById("lostDate").value;
+          const lostLocation = document.getElementById("lostLocation").value;
+          const itemDescription =
+            document.getElementById("itemDescription").value;
+          const contactEmail = document.getElementById("contactEmail").value;
+
+          if (
+            !itemName ||
+            !itemCategory ||
+            !lostDate ||
+            !lostLocation ||
+            !itemDescription ||
+            !contactEmail
+          ) {
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          // In a real app, you would submit this data to a server
+          alert(
+            "Thank you for reporting your lost item. We'll notify you if someone finds it!"
+          );
+          closeModal();
+        });
+
+        // File upload interaction
+        const fileUpload = document.getElementById("fileUpload");
+        fileUpload.addEventListener("click", function () {
+          alert("In a real application, this would open a file picker dialog.");
+        });
+      }
+
+      // Initialize the page when DOM is loaded
+      document.addEventListener("DOMContentLoaded", initPage);
+    </script>
+  </body>
+</html>

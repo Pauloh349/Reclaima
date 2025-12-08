@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How It Works - Reclaima</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --primary: #4a6fa5;
+        --secondary: #166088;
+        --accent: #ff7e5f;
+        --light: #f8f9fa;
+        --dark: #2d3047;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
+        --success: #28a745;
+        --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        line-height: 1.6;
+        color: var(--dark);
+        background-color: #f5f7fa;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        background-color: white;
+        box-shadow: var(--shadow);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .logo i {
+        color: var(--accent);
+        font-size: 2rem;
+      }
+
+      .logo span {
+        color: var(--secondary);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        transition: var(--transition);
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+
+      nav a:hover,
+      nav a.active {
+        color: var(--primary);
+        background-color: rgba(74, 111, 165, 0.1);
+      }
+
+      .cta-button {
+        background-color: var(--accent);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+      }
+
+      .cta-button:hover {
+        background-color: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      .mobile-menu {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 140px 0 80px;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .page-title {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      .page-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      /* Overview Section */
+      .overview {
+        padding: 80px 0;
+        text-align: center;
+      }
+
+      .overview h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--dark);
+      }
+
+      .overview p {
+        color: var(--gray);
+        max-width: 800px;
+        margin: 0 auto 50px;
+        font-size: 1.1rem;
+      }
+
+      .process-overview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-top: 60px;
+        position: relative;
+      }
+
+      .process-step {
+        text-align: center;
+        max-width: 220px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .step-number {
+        width: 60px;
+        height: 60px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 auto 25px;
+        box-shadow: var(--shadow);
+      }
+
+      .process-step h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .process-step p {
+        color: var(--gray);
+        font-size: 1rem;
+      }
+
+      .process-connector {
+        position: absolute;
+        top: 30px;
+        left: 25%;
+        width: 50%;
+        height: 4px;
+        background-color: var(--light-gray);
+        z-index: 1;
+      }
+
+      .process-connector::before,
+      .process-connector::after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-color: var(--light-gray);
+        border-radius: 50%;
+        top: -4px;
+      }
+
+      .process-connector::before {
+        left: 0;
+      }
+
+      .process-connector::after {
+        right: 0;
+      }
+
+      /* Detailed Steps */
+      .detailed-steps {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+      }
+
+      .section-title p {
+        color: var(--gray);
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+      }
+
+      .step-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 100px;
+      }
+
+      .step-detail:nth-child(even) .step-content {
+        order: 2;
+      }
+
+      .step-detail:nth-child(even) .step-visual {
+        order: 1;
+      }
+
+      .step-content h3 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: var(--dark);
+      }
+
+      .step-content h3 span {
+        color: var(--primary);
+      }
+
+      .step-content p {
+        color: var(--gray);
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+
+      .step-features {
+        list-style: none;
+        margin-bottom: 30px;
+      }
+
+      .step-features li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .step-features i {
+        color: var(--success);
+        font-size: 1.2rem;
+        margin-top: 3px;
+      }
+
+      .step-visual {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .visual-icon {
+        width: 120px;
+        height: 120px;
+        background-color: rgba(74, 111, 165, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .visual-icon i {
+        font-size: 4rem;
+        color: var(--primary);
+      }
+
+      .visual-example {
+        background-color: white;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 25px;
+        margin-top: 30px;
+        text-align: left;
+      }
+
+      .visual-example h4 {
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+      }
+
+      .visual-example p {
+        color: var(--gray);
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+      }
+
+      .example-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.9rem;
+        color: var(--gray);
+      }
+
+      .example-meta div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      /* Safety & Guidelines */
+      .safety-guidelines {
+        padding: 80px 0;
+      }
+
+      .guidelines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .guideline-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        border-top: 4px solid var(--primary);
+      }
+
+      .guideline-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .guideline-card.safety {
+        border-top-color: var(--success);
+      }
+
+      .guideline-card.communication {
+        border-top-color: var(--accent);
+      }
+
+      .guideline-card.verification {
+        border-top-color: var(--secondary);
+      }
+
+      .guideline-icon {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(74, 111, 165, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+      }
+
+      .guideline-card.safety .guideline-icon {
+        background-color: rgba(40, 167, 69, 0.1);
+      }
+
+      .guideline-card.communication .guideline-icon {
+        background-color: rgba(255, 126, 95, 0.1);
+      }
+
+      .guideline-card.verification .guideline-icon {
+        background-color: rgba(22, 96, 136, 0.1);
+      }
+
+      .guideline-icon i {
+        font-size: 1.8rem;
+        color: var(--primary);
+      }
+
+      .guideline-card.safety .guideline-icon i {
+        color: var(--success);
+      }
+
+      .guideline-card.communication .guideline-icon i {
+        color: var(--accent);
+      }
+
+      .guideline-card.verification .guideline-icon i {
+        color: var(--secondary);
+      }
+
+      .guideline-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .guideline-card p {
+        color: var(--gray);
+        margin-bottom: 20px;
+      }
+
+      .guideline-list {
+        list-style: none;
+      }
+
+      .guideline-list li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+        color: var(--gray);
+      }
+
+      .guideline-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      /* FAQ Section */
+      .faq-section {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+      }
+
+      .faq-container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .faq-item {
+        background: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 25px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        color: var(--dark);
+      }
+
+      .faq-question:hover {
+        background-color: rgba(74, 111, 165, 0.05);
+      }
+
+      .faq-answer {
+        padding: 0 25px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+      }
+
+      .faq-answer.active {
+        padding: 0 25px 25px;
+        max-height: 500px;
+      }
+
+      .faq-answer p {
+        color: var(--gray);
+        line-height: 1.7;
+      }
+
+      .faq-answer ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+        color: var(--gray);
+      }
+
+      .faq-toggle {
+        font-size: 1.5rem;
+        color: var(--primary);
+        transition: var(--transition);
+      }
+
+      .faq-item.active .faq-toggle {
+        transform: rotate(45deg);
+      }
+
+      /* CTA Section */
+      .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--dark);
+      }
+
+      .cta-section p {
+        max-width: 700px;
+        margin: 0 auto 40px;
+        color: var(--gray);
+        font-size: 1.1rem;
+      }
+
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .secondary-button {
+        background-color: white;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: var(--transition);
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .secondary-button:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 70px 0 30px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        color: white;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: var(--accent);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: #bbb;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: white;
+        padding-left: 5px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: var(--transition);
+      }
+
+      .social-links a:hover {
+        background-color: var(--accent);
+        transform: translateY(-5px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #bbb;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .step-detail {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .step-detail:nth-child(even) .step-content,
+        .step-detail:nth-child(even) .step-visual {
+          order: initial;
+        }
+
+        .process-connector {
+          display: none;
+        }
+
+        .process-overview {
+          flex-direction: column;
+          gap: 60px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          display: none;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        .page-title {
+          font-size: 2.5rem;
+        }
+
+        .page-subtitle {
+          font-size: 1.1rem;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+
+        .step-content h3 {
+          font-size: 1.8rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .cta-button,
+        .secondary-button {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .page-header {
+          padding: 120px 0 60px;
+        }
+
+        .overview h2,
+        .section-title h2 {
+          font-size: 1.8rem;
+        }
+
+        .guidelines-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .visual-example {
+          padding: 20px;
+        }
+
+        .faq-question {
+          font-size: 1.1rem;
+          padding: 20px;
+        }
+
+        .faq-answer {
+          padding: 0 20px;
+        }
+
+        .faq-answer.active {
+          padding: 0 20px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container header-container">
+        <a href="index.html" class="logo">
+          <i class="fas fa-search"></i>
+          Reclaim<span>a</span>
+        </a>
+
+        <nav>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'lostItems' %}">Lost Items</a></li>
+            <li><a href="{% url 'found' %}">Found Items</a></li>
+            <li>
+              <a href="{% url 'howItWorks' %}" class="active">How It Works</a>
+            </li>
+            <li><a href="{% url 'successStories' %}">Success Stories</a></li>
+          </ul>
+        </nav>
+
+        <div class="cta-buttons">
+          <button class="cta-button">Get Started</button>
+        </div>
+
+        <div class="mobile-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <h1 class="page-title">How Reclaima Works</h1>
+        <p class="page-subtitle">
+          Our platform makes it simple to report lost items, find what you've
+          lost, or return found items to their rightful owners. Here's a
+          step-by-step guide to using Reclaima effectively.
+        </p>
+      </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="overview">
+      <div class="container">
+        <h2>The Reclaima Process</h2>
+        <p>
+          Whether you've lost something valuable or found an item that isn't
+          yours, our three-step process ensures a safe, efficient, and reliable
+          way to reconnect people with their belongings.
+        </p>
+
+        <div class="process-overview">
+          <div class="process-connector"></div>
+
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Report</h3>
+            <p>
+              Report your lost item or a found item with detailed information.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Match</h3>
+            <p>
+              Our system matches lost and found reports based on multiple
+              factors.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Reunite</h3>
+            <p>Connect with the owner/finder and arrange a safe return.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Steps -->
+    <section class="detailed-steps">
+      <div class="container">
+        <div class="section-title">
+          <h2>A Closer Look at Each Step</h2>
+          <p>Detailed breakdown of how each part of the process works</p>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-detail">
+          <div class="step-content">
+            <h3><span>Step 1:</span> Report Your Item</h3>
+            <p>
+              Start by creating a detailed report for either a lost item or a
+              found item. The more information you provide, the better your
+              chances of a successful reunion.
+            </p>
+
+            <ul class="step-features">
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Detailed Descriptions:</strong> Include brand, color,
+                size, and unique features
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Location Details:</strong> Specify where the item was
+                lost or found
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Upload Photos:</strong> Visual identification increases
+                match accuracy
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Secure Contact:</strong> Your contact information is
+                kept private until a match is made
+              </li>
+            </ul>
+
+            <button class="cta-button">Report a Lost Item</button>
+            <button class="secondary-button">Report a Found Item</button>
+          </div>
+
+          <div class="step-visual">
+            <div class="visual-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <h3>Create Your Report</h3>
+            <p>Fill out our simple form with all relevant details</p>
+
+            <div class="visual-example">
+              <h4>Example Report:</h4>
+              <p><strong>Item:</strong> Black leather wallet</p>
+              <p>
+                <strong>Contents:</strong> Driver's license, 2 credit cards, $45
+                cash
+              </p>
+              <p>
+                <strong>Identifying Feature:</strong> Small scratch on front
+                right corner
+              </p>
+              <div class="example-meta">
+                <div><i class="fas fa-map-marker-alt"></i> Downtown Cafe</div>
+                <div><i class="fas fa-calendar-alt"></i> Oct 15, 2023</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-detail">
+          <div class="step-content">
+            <h3><span>Step 2:</span> Smart Matching System</h3>
+            <p>
+              Our intelligent matching algorithm compares lost and found reports
+              to identify potential matches based on multiple criteria. This
+              increases the likelihood of successful reunions.
+            </p>
+
+            <ul class="step-features">
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Location-Based Matching:</strong> Prioritizes items
+                lost/found in similar areas
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Time Analysis:</strong> Considers when items were lost
+                vs. found
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Description Comparison:</strong> Analyzes textual
+                descriptions for similarities
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Image Recognition:</strong> Uses AI to compare uploaded
+                photos when available
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Category Filtering:</strong> Matches items within the
+                same category
+              </li>
+            </ul>
+
+            <button class="cta-button">Browse Lost Items</button>
+            <button class="secondary-button">Browse Found Items</button>
+          </div>
+
+          <div class="step-visual">
+            <div class="visual-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>AI-Powered Matching</h3>
+            <p>
+              Our system analyzes thousands of data points to find potential
+              matches
+            </p>
+
+            <div class="visual-example">
+              <h4>Match Factors:</h4>
+              <p><strong>Location Proximity:</strong> 95% match</p>
+              <p><strong>Time Window:</strong> 88% match</p>
+              <p><strong>Description Similarity:</strong> 92% match</p>
+              <p><strong>Overall Match Score:</strong> 91%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-detail">
+          <div class="step-content">
+            <h3><span>Step 3:</span> Safe Reunion Process</h3>
+            <p>
+              Once a potential match is identified, we facilitate secure
+              communication between the parties and provide guidelines for a
+              safe and successful reunion.
+            </p>
+
+            <ul class="step-features">
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Secure Messaging:</strong> Communicate through our
+                platform without sharing personal contact details
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Verification Steps:</strong> Confirm ownership through
+                specific questions about the item
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Safe Meeting Guidelines:</strong> Recommendations for
+                public meeting places
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Follow-up Confirmation:</strong> Both parties confirm
+                when the item has been returned
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <strong>Success Stories:</strong> Share your reunion story to
+                inspire others
+              </li>
+            </ul>
+
+            <button class="cta-button">View Success Stories</button>
+          </div>
+
+          <div class="step-visual">
+            <div class="visual-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Safe & Secure Returns</h3>
+            <p>We prioritize safety throughout the reunion process</p>
+
+            <div class="visual-example">
+              <h4>Reunion Checklist:</h4>
+              <p>
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--success)"
+                ></i>
+                Verify ownership details
+              </p>
+              <p>
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--success)"
+                ></i>
+                Arrange public meeting place
+              </p>
+              <p>
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--success)"
+                ></i>
+                Bring identification if required
+              </p>
+              <p>
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--success)"
+                ></i>
+                Confirm return in the app
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Safety & Guidelines -->
+    <section class="safety-guidelines">
+      <div class="container">
+        <div class="section-title">
+          <h2>Safety Guidelines & Best Practices</h2>
+          <p>
+            Following these guidelines ensures a safe and positive experience
+            for everyone
+          </p>
+        </div>
+
+        <div class="guidelines-grid">
+          <div class="guideline-card safety">
+            <div class="guideline-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Safety First</h3>
+            <p>
+              Protect yourself and your personal information throughout the
+              process.
+            </p>
+            <ul class="guideline-list">
+              <li>Always meet in public, well-lit places</li>
+              <li>Consider bringing a friend with you</li>
+              <li>Never share financial information</li>
+              <li>
+                Trust your instincts - if something feels wrong, cancel the
+                meeting
+              </li>
+              <li>Use our secure messaging system until you're comfortable</li>
+            </ul>
+          </div>
+
+          <div class="guideline-card communication">
+            <div class="guideline-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3>Effective Communication</h3>
+            <p>
+              Clear communication increases the chances of successful reunions.
+            </p>
+            <ul class="guideline-list">
+              <li>Be responsive to messages from potential matches</li>
+              <li>Provide clear, detailed descriptions of items</li>
+              <li>Ask specific questions to verify ownership</li>
+              <li>Be honest about the condition of found items</li>
+              <li>Update your report status when item is found/returned</li>
+            </ul>
+          </div>
+
+          <div class="guideline-card verification">
+            <div class="guideline-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <h3>Verification Process</h3>
+            <p>
+              Proper verification ensures items are returned to their rightful
+              owners.
+            </p>
+            <ul class="guideline-list">
+              <li>Ask for specific details only the owner would know</li>
+              <li>Request identification for high-value items</li>
+              <li>For documents/IDs, verify the name matches the ID</li>
+              <li>Use photos as verification when possible</li>
+              <li>Report suspicious activity to our support team</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Frequently Asked Questions</h2>
+          <p>Answers to common questions about using Reclaima</p>
+        </div>
+
+        <div class="faq-container">
+          <div class="faq-item active">
+            <div class="faq-question">
+              <span>Is Reclaima free to use?</span>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer active">
+              <p>
+                Yes, Reclaima is completely free for both reporting lost items
+                and searching for found items. Our mission is to help reunite
+                people with their belongings without any cost barriers.
+              </p>
+              <p>
+                We may offer premium features in the future for businesses or
+                organizations, but the core functionality will always remain
+                free for individual users.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>How do you protect my personal information?</span>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                We take privacy very seriously. Your contact information is
+                never publicly displayed. When a potential match is found, our
+                system facilitates communication through secure messaging
+                without revealing personal details until you choose to share
+                them.
+              </p>
+              <p>
+                All data is encrypted, and we never sell your personal
+                information to third parties. You can review our full privacy
+                policy for more details.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>What should I do if I find something valuable?</span>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>If you find a valuable item:</p>
+              <ul>
+                <li>
+                  First, check if there's any identification or contact
+                  information with the item
+                </li>
+                <li>
+                  If it's found in a business or public place, notify the staff
+                  or management
+                </li>
+                <li>
+                  Report the found item on Reclaima with as much detail as
+                  possible
+                </li>
+                <li>
+                  Consider contacting local authorities for high-value items
+                  (electronics, wallets with cash)
+                </li>
+                <li>
+                  Safely store the item while waiting for the owner to come
+                  forward
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span
+                >How long should I wait before assuming my item won't be
+                found?</span
+              >
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Don't give up hope too quickly! Items are often found days,
+                weeks, or even months after being lost. Here's our
+                recommendation:
+              </p>
+              <ul>
+                <li>
+                  <strong>First 48 hours:</strong> Actively search and report on
+                  Reclaima
+                </li>
+                <li>
+                  <strong>First week:</strong> Check daily for matches and
+                  update your report if needed
+                </li>
+                <li>
+                  <strong>First month:</strong> Check periodically and keep your
+                  report active
+                </li>
+                <li>
+                  <strong>Beyond one month:</strong> We keep reports active for
+                  6 months, and many items are reunited even after this time
+                </li>
+              </ul>
+              <p>
+                Some of our most heartwarming success stories involve items
+                returned after several months.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>What types of items can I report on Reclaima?</span>
+              <span class="faq-toggle">+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                You can report virtually any lost or found item on Reclaima,
+                including:
+              </p>
+              <ul>
+                <li>
+                  <strong>Electronics:</strong> Phones, laptops, tablets,
+                  headphones, chargers
+                </li>
+                <li>
+                  <strong>Personal Items:</strong> Wallets, purses, keys,
+                  jewelry, watches
+                </li>
+                <li>
+                  <strong>Documents:</strong> IDs, passports, credit cards,
+                  important papers
+                </li>
+                <li>
+                  <strong>Clothing:</strong> Jackets, hats, gloves, scarves
+                </li>
+                <li>
+                  <strong>Accessories:</strong> Glasses, sunglasses, bags,
+                  luggage
+                </li>
+                <li>
+                  <strong>Miscellaneous:</strong> Books, tools, sports
+                  equipment, pet items
+                </li>
+              </ul>
+              <p>
+                If you're unsure whether to report something, it's always better
+                to create a report. You might be helping someone who's
+                desperately looking for that exact item.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Get Started?</h2>
+        <p>
+          Join thousands of users who have successfully reunited with their lost
+          belongings through Reclaima. Whether you've lost something or found
+          something, our platform makes the process simple and secure.
+        </p>
+
+        <div class="cta-buttons">
+          <button class="cta-button">Report a Lost Item</button>
+          <button class="secondary-button">Browse Found Items</button>
+          <button class="secondary-button">View Success Stories</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-container">
+          <div class="footer-column">
+            <h3>Reclaima</h3>
+            <p>
+              Reconnect with what matters most. Our mission is to create a world
+              where lost items always find their way back home.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="lost-items.html">Lost Items</a></li>
+              <li><a href="found-items.html">Found Items</a></li>
+              <li><a href="#" class="active">How It Works</a></li>
+              <li><a href="#">Success Stories</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+              <li><a href="#">Safety Guidelines</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Partnerships</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Contact Info</h3>
+            <ul class="footer-links">
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 123 Reclaim Street, City,
+                State 12345
+              </li>
+              <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+              <li><i class="fas fa-envelope"></i> help@reclaima.com</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <p>
+            &copy; 2023 Reclaima. All rights reserved. | Designed with
+            <i class="fas fa-heart" style="color: var(--accent)"></i> to reunite
+            people with their belongings
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // FAQ Toggle Functionality
+      const faqItems = document.querySelectorAll(".faq-item");
+
+      faqItems.forEach((item) => {
+        const question = item.querySelector(".faq-question");
+        const answer = item.querySelector(".faq-answer");
+        const toggle = item.querySelector(".faq-toggle");
+
+        question.addEventListener("click", () => {
+          // Close all other FAQ items
+          faqItems.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.classList.remove("active");
+              otherItem.querySelector(".faq-answer").classList.remove("active");
+            }
+          });
+
+          // Toggle current item
+          item.classList.toggle("active");
+          answer.classList.toggle("active");
+        });
+      });
+
+      // Mobile Menu Toggle
+      const mobileMenu = document.querySelector(".mobile-menu");
+      const navUl = document.querySelector("nav ul");
+
+      mobileMenu.addEventListener("click", () => {
+        navUl.style.display = navUl.style.display === "flex" ? "none" : "flex";
+      });
+
+      // CTA Button Functionality
+      const ctaButtons = document.querySelectorAll(".cta-button");
+      const secondaryButtons = document.querySelectorAll(".secondary-button");
+
+      ctaButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const buttonText = this.textContent.trim();
+
+          if (buttonText.includes("Lost Item")) {
+            // In a real app, this would navigate to the lost items page
+            window.location.href = "lost-items.html";
+          } else if (buttonText.includes("Get Started")) {
+            // Scroll to the overview section
+            document
+              .querySelector(".overview")
+              .scrollIntoView({ behavior: "smooth" });
+          } else if (buttonText.includes("Success Stories")) {
+            // In a real app, this would navigate to success stories
+            alert("Navigating to success stories page");
+          } else if (buttonText.includes("Report")) {
+            // In a real app, this would open a report modal
+            alert("Opening report form");
+          }
+        });
+      });
+
+      secondaryButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const buttonText = this.textContent.trim();
+
+          if (buttonText.includes("Found Item")) {
+            // In a real app, this would navigate to the found items page
+            window.location.href = "found-items.html";
+          } else if (buttonText.includes("Lost Items")) {
+            window.location.href = "lost-items.html";
+          } else if (buttonText.includes("Success Stories")) {
+            alert("Navigating to success stories page");
+          } else if (buttonText.includes("Report")) {
+            alert("Opening found item report form");
+          }
+        });
+      });
+
+      // Animate process steps on scroll
+      function animateOnScroll() {
+        const processSteps = document.querySelectorAll(".process-step");
+        const stepDetails = document.querySelectorAll(".step-detail");
+        const guidelineCards = document.querySelectorAll(".guideline-card");
+
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        }, observerOptions);
+
+        // Set initial state for animation
+        processSteps.forEach((step) => {
+          step.style.opacity = "0";
+          step.style.transform = "translateY(20px)";
+          step.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          observer.observe(step);
+        });
+
+        stepDetails.forEach((detail, index) => {
+          detail.style.opacity = "0";
+          detail.style.transform = "translateY(30px)";
+          detail.style.transition = `opacity 0.5s ease ${
+            index * 0.2
+          }s, transform 0.5s ease ${index * 0.2}s`;
+          observer.observe(detail);
+        });
+
+        guidelineCards.forEach((card, index) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          card.style.transition = `opacity 0.5s ease ${
+            index * 0.1
+          }s, transform 0.5s ease ${index * 0.1}s`;
+          observer.observe(card);
+        });
+      }
+
+      // Initialize animations when page loads
+      document.addEventListener("DOMContentLoaded", animateOnScroll);
+    </script>
+  </body>
+</html>
