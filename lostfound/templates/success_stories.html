@@ -7,10 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Success Stories - Reclaima</title>
     <link rel="stylesheet" href="{% static 'css/success_stories.css'%}" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   </head>
   <body>
     <!-- Header -->
@@ -112,7 +110,24 @@
         </div>
 
         <div class="stories-container" id="storiesContainer">
-          <!-- Story cards will be dynamically generated here -->
+          {% for story in stories %}
+          <div class="story-card">
+            <div class="story-content">
+              <div class="quote-icon">
+                <i class="fas fa-quote-left"></i>
+              </div>
+              <p>{{ story.content|truncatechars:300 }}</p>
+            </div>
+            <div class="story-author">
+              <div>
+                <h4>{{ story.author_name }}</h4>
+                <p>{{ story.created_at|date:"j M Y" }}</p>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <p>No success stories yet.</p>
+          {% endfor %}
         </div>
       </div>
     </section>
@@ -321,6 +336,5 @@
     <!-- Footer -->
     {% include 'includes/footer.html' %}
     <script src="{%static 'js/success_stories.js'%}"></script>
-
   </body>
 </html>

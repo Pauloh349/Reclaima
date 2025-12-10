@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reclaima - Reconnect with What You've Lost</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  </head>
+  <body>
+    <!-- Header -->
+    {% include 'includes/header.html'%}
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span>Trusted by 50,000+ users</span>
+          </div>
+          <h1 class="hero-title">
+            Lost Something? <span class="text-gradient">Find It Fast</span> with
+            Reclaima
+          </h1>
+          <p class="hero-description">
+            The world's most trusted lost & found platform. Using AI-powered
+            matching and a community of helpers, we've reunited over 100,000
+            items with their owners.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg">
+              <i class="fas fa-search"></i>
+              <span>Find Lost Item</span>
+            </button>
+            <button class="btn btn-secondary btn-lg">
+              <i class="fas fa-hand-holding-heart"></i>
+              <span>Report Found Item</span>
+            </button>
+          </div>
+
+          <div class="search-box-wrapper">
+            <div class="search-box">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Describe what you lost or found (e.g., 'black wallet', 'iPhone 12', 'keys with blue tag')"
+                class="search-input"
+              />
+              <select class="location-select">
+                <option value="">Any Location</option>
+                <option value="nyc">New York City</option>
+                <option value="la">Los Angeles</option>
+                <option value="chi">Chicago</option>
+              </select>
+              <button class="btn btn-primary search-btn">
+                <span>Search Now</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="popular-searches">
+            <h4>Popular Searches:</h4>
+            <div class="search-tags">
+              <a href="#" class="search-tag">
+                <i class="fas fa-mobile-alt"></i>
+                Smartphones
+              </a>
+              <a href="#" class="search-tag">
+                <i class="fas fa-wallet"></i>
+                Wallets & IDs
+              </a>
+              <a href="#" class="search-tag">
+                <i class="fas fa-key"></i>
+                Keys
+              </a>
+              <a href="#" class="search-tag">
+                <i class="fas fa-laptop"></i>
+                Laptops
+              </a>
+              <a href="#" class="search-tag">
+                <i class="fas fa-glasses"></i>
+                Eyewear
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">How Reclaima Works</h2>
+          <p class="section-subtitle">
+            Three simple steps to reconnect with your lost items
+          </p>
+        </div>
+
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-icon">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+            <h3>Report Your Item</h3>
+            <p>
+              Describe your lost item with details, location, and upload photos
+              for better identification.
+            </p>
+            <button class="btn-link">
+              <span>Learn more</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>AI-Powered Matching</h3>
+            <p>
+              Our smart system instantly matches your report with found items
+              using advanced algorithms.
+            </p>
+            <button class="btn-link">
+              <span>Learn more</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Secure Return</h3>
+            <p>
+              Connect safely through our platform and arrange a secure return
+              with built-in verification.
+            </p>
+            <button class="btn-link">
+              <span>Learn more</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <h4>Secure Platform</h4>
+              <p>End-to-end encrypted communication</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-clock"></i>
+            <div>
+              <h4>24/7 Support</h4>
+              <p>Round-the-clock customer assistance</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-globe"></i>
+            <div>
+              <h4>Global Network</h4>
+              <p>Active in 50+ cities worldwide</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Items -->
+    <section class="featured-items">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Recently Lost Items</h2>
+          <a href="{% url 'lostItems' %}" class="view-all">
+            <span>View All Items</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="items-grid">
+          {% for item in recent_lost %}
+          <div class="item-card">
+            <div class="item-image">
+              <img
+                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
+                alt="{{ item.title }}"
+              />
+              <span class="item-status {{ item.status }}"
+                >{{ item.get_status_display }}</span
+              >
+            </div>
+            <div class="item-content">
+              <div class="item-category">
+                <i class="fas fa-tag"></i>
+                {% if item.category %}{{ item.category.name }}{% else
+                %}General{% endif %}
+              </div>
+              <h3>{{ item.title }}</h3>
+              <p class="item-description">
+                {{ item.description|truncatechars:120 }}
+              </p>
+              <div class="item-meta">
+                <div class="meta-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>{{ item.location }}</span>
+                </div>
+                <div class="meta-item">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ item.date_lost|date:"j M" }}</span>
+                </div>
+              </div>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </div>
+          {% empty %}
+          <div class="item-card">
+            <div class="item-content">
+              <h3>No recent lost items</h3>
+              <p>There are currently no lost items listed.</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Success Stories</h2>
+          <p class="section-subtitle">
+            Hear from people who reunited with their belongings
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="quote-icon">
+                <i class="fas fa-quote-left"></i>
+              </div>
+              <p>
+                "I lost my wedding ring during our anniversary trip. Thanks to
+                Reclaima, a kind stranger found it and I got it back within 48
+                hours. This service is incredible!"
+              </p>
+            </div>
+
+... (backup file created)

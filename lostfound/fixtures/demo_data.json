@@ -1,0 +1,27 @@
+[
+  {
+    "model": "lostfound.category",
+    "pk": 1,
+    "fields": {
+      "name": "Electronics"
+    }
+  },
+  {
+    "model": "lostfound.category",
+    "pk": 2,
+    "fields": {
+      "name": "Personal Items"
+    }
+  },
+  {
+    "model": "lostfound.successstory",
+    "pk": 1,
+    "fields": {
+      "title": "Grandmother's Necklace Returned",
+      "author_name": "Jessica Williams",
+      "content": "A construction worker found my grandmother's necklace and Reclaima helped reunite us.",
+      "category": 2,
+      "created_at": "2025-11-05"
+    }
+  }
+]

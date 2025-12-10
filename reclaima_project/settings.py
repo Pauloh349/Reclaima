@@ -122,6 +122,13 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Media files (user uploaded)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Use BigAutoField by default
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # For development, you might want to add this:
 if DEBUG:
     STATICFILES_DIRS = [

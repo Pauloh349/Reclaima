@@ -9,11 +9,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+
     <link rel="stylesheet" href="{% static 'css/lost_items.css' %}" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
   </head>
   <body>
     <!-- Header -->
@@ -174,7 +176,47 @@
           </div>
 
           <div class="items-grid" id="lostItemsGrid">
-            <!-- Item cards will be dynamically generated here -->
+            {% for item in lost_items %}
+            <div class="item-card">
+              <div class="item-image">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" />
+                {% else %}
+                <img
+                  src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
+                  alt="{{ item.title }}"
+                />
+                {% endif %}
+                <span class="item-status {{ item.status }}"
+                  >{{ item.get_status_display }}</span
+                >
+              </div>
+              <div class="item-content">
+                <div class="item-category">
+                  <i class="fas fa-tag"></i>
+                  {% if item.category %}{{ item.category.name }}{% else
+                  %}General{% endif %}
+                </div>
+                <h3>{{ item.title }}</h3>
+                <p class="item-description">
+                  {{ item.description|truncatechars:150 }}
+                </p>
+                <div class="item-meta">
+                  <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ item.location }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ item.date_lost|date:"j M Y" }}</span>
+                  </div>
+                </div>
+                <button class="btn btn-outline">View Details</button>
+              </div>
+            </div>
+            {% empty %}
+            <p>No lost items found.</p>
+            {% endfor %}
           </div>
 
           <!-- Pagination -->

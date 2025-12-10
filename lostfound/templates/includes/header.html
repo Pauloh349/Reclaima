@@ -1,5 +1,3 @@
-{% load static%}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
 <header class="main-header">
   <div class="container header-container">
     <a href="{% url 'home'%}" class="logo">
@@ -11,7 +9,7 @@
 
     <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'home' %}" class="nav-link active">Home</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
         <li><a href="{% url 'lostItems' %}" class="nav-link">Lost Items</a></li>
         <li><a href="{% url 'found' %}" class="nav-link">Found Items</a></li>
         <li>
@@ -26,15 +24,15 @@
     </nav>
 
     <div class="header-actions">
-      <button class="btn btn-primary btn-report">
+      <a href="{% url 'report_lost' %}" class="btn btn-primary btn-report">
         <i class="fas fa-plus-circle"></i>
         <span>Report Item</span>
-      </button>
+      </a>
       <div class="user-menu">
-        <button class="btn btn-ghost">
+        <a href="{% url 'signin' %}" class="btn btn-ghost">
           <i class="fas fa-user-circle"></i>
           <span>Sign In</span>
-        </button>
+        </a>
       </div>
     </div>
 

@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ item.title }} — Reclaima</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}" />
+  </head>
+  <body>
+    {% include 'includes/header.html' %}
+
+    <main class="detail-container">
+      <div class="breadcrumb">
+        <a href="{% url 'home' %}">Home</a>
+        <span>/</span>
+        <a href="{% url 'found' %}">Found Items</a>
+        <span>/</span>
+        <span class="current">{{ item.title }}</span>
+      </div>
+
+      {% if messages %}
+      <div id="snackbar" class="snackbar"></div>
+      {% endif %}
+
+      <div class="detail-wrapper">
+        <!-- Image Section -->
+        <div class="detail-image-section">
+          <div class="image-container">
+            {% if item.thumbnail %}
+            <img src="{{ item.thumbnail.url }}" alt="{{ item.title }}" class="detail-image" />
+            {% elif item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.title }}" class="detail-image" />
+            {% else %}
+            <div class="no-image-placeholder">
+              <i class="fas fa-image"></i>
+              <p>No image available</p>
+            </div>
+            {% endif %}
+          </div>
+          <div class="status-badge {{ item.status }}">
+            <i class="fas fa-check-circle"></i>
+            <span>{{ item.get_status_display }}</span>
+          </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="detail-content">
+          <div class="detail-header">
+            <h1>{{ item.title }}</h1>
+            <div class="meta-header">
+              <span class="category-tag">{{ item.category }}</span>
+              <span class="date-posted">Posted {{ item.created_at|date:"M d, Y" }}</span>
+            </div>
+          </div>
+
+          <!-- Key Information -->
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-label">
+                <i class="fas fa-map-marker-alt"></i>
+                Location
+              </div>
+              <div class="info-value">{{ item.location }}</div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-label">
+                <i class="fas fa-calendar-alt"></i>
+                Date Found
+              </div>
+              <div class="info-value">{{ item.date_found|date:"M d, Y" }}</div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-label">
+                <i class="fas fa-tag"></i>
+                Category
+              </div>
+              <div class="info-value">{{ item.category }}</div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-label">
+                <i class="fas fa-info-circle"></i>
+                Status
+              </div>
+              <div class="info-value">
+                {% if item.status == 'unclaimed' %}
+                  <span class="status-label unclaimed">Available</span>
+                {% else %}
+                  <span class="status-label claimed">Claimed</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="description-section">
+            <h3>Description</h3>
+            <p class="description-text">{{ item.description }}</p>
+          </div>
+
+          <!-- Finder Information -->
+          <div class="reporter-section">
+            <h3>Finder Information</h3>
+            <div class="info-box">
+              <div class="info-item">
+                <span class="label">Name:</span>
+                <span class="value">{{ item.finder_name }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Email:</span>
+                <a href="mailto:{{ item.finder_email }}" class="email-link">{{ item.finder_email }}</a>
+              </div>
+              <div class="info-item">
+                <span class="label">Phone:</span>
+                <a href="tel:{{ item.finder_phone }}" class="phone-link">{{ item.finder_phone }}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Section -->
+          <div class="action-section">
+            <a href="{% url 'found' %}" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i>
+              <span>Back to Found Items</span>
+            </a>
+
+            {% if item.status != 'claimed' %}
+            <button class="btn btn-primary" id="claimBtn">
+              <i class="fas fa-check"></i>
+              <span>Claim This Item</span>
+            </button>
+
+            <form
+              method="post"
+              action="{% url 'mark_found_claim' pk=item.pk %}"
+              id="claimForm"
+              style="display: none"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="proof" id="proofInput" value="" />
+            </form>
+
+            <div id="confirmModal" class="modal" style="display: none">
+              <div class="modal-overlay" id="modalOverlay"></div>
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2>Claim This Item</h2>
+                  <button class="modal-close" id="modalClose" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure this is your item? Please provide proof or details that confirm ownership.</p>
+                  <label for="proofText" class="proof-label">
+                    <i class="fas fa-info-circle"></i>
+                    Proof of ownership (optional)
+                  </label>
+                  <textarea
+                    id="proofText"
+                    rows="4"
+                    placeholder="Describe any distinguishing features or provide details..."
+                    class="proof-textarea"
+                  ></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button id="cancelClaim" class="btn btn-secondary" type="button">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel</span>
+                  </button>
+                  <button id="confirmClaim" class="btn btn-primary" type="button">
+                    <i class="fas fa-check"></i>
+                    <span>Yes, Claim Item</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i>
+              <span>This item has been claimed.</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function(){
+        const messages = [{% for m in messages %}{'level': '{{ m.tags }}','text': "{{ m }}"},{% endfor %}];
+        if(messages.length){
+          const sb = document.getElementById('snackbar');
+          sb.textContent = messages[0].text;
+          sb.classList.add('show');
+          setTimeout(()=> sb.classList.remove('show'), 3500);
+        }
+
+        const claimBtn = document.getElementById('claimBtn');
+        const modal = document.getElementById('confirmModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const cancel = document.getElementById('cancelClaim');
+        const confirm = document.getElementById('confirmClaim');
+        const form = document.getElementById('claimForm');
+
+        function closeModal() {
+          modal.style.display = 'none';
+        }
+
+        if(claimBtn){
+          claimBtn.addEventListener('click', ()=>{ 
+            modal.style.display = 'flex'; 
+          });
+        }
+        if(cancel){ cancel.addEventListener('click', closeModal); }
+        if(modalClose){ modalClose.addEventListener('click', closeModal); }
+        if(modalOverlay){ modalOverlay.addEventListener('click', closeModal); }
+        if(confirm){ 
+          confirm.addEventListener('click', ()=>{
+            const proofVal = document.getElementById('proofText') ? document.getElementById('proofText').value : '';
+            const proofInput = document.getElementById('proofInput');
+            if(proofInput) proofInput.value = proofVal;
+            form.submit();
+          }); 
+        }
+      })();
+    </script>
+
+    {% include 'includes/footer.html' %}
+  </body>
+</html>

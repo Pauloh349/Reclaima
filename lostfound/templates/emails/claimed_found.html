@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <p>Hello {{ finder_name }},</p>
+    <p>
+      The found item "<strong>{{ item_title }}</strong>" you reported has been
+      marked as claimed on Reclaima.
+    </p>
+    {% if proof %}
+    <p><strong>Claim note / proof:</strong> {{ proof }}</p>
+    {% endif %}
+    <p>
+      You can view the item details here:
+      <a href="{{ item_url }}">View item</a>
+    </p>
+    <p>Thanks,<br />Reclaima Team</p>
+  </body>
+</html>

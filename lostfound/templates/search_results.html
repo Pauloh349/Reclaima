@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Results — Reclaima</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/report.css' %}" />
+  </head>
+
+  <body>
+    {% include 'includes/header.html' %}
+
+    <main class="container" style="padding: 28px 16px">
+      <header class="page-header">
+        <h1>Search Results</h1>
+        <div class="back-home" style="margin: 12px 0">
+          <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+        </div>
+      </header>
+
+      {% if not lost_results and not found_results %}
+      <div class="alert">No results found for your search.</div>
+      {% endif %}
+      {# ---------------- LOST RESULTS ---------------- #}
+      {% if lost_results %}
+      <section>
+        <h2 class="section-title">Lost Items</h2>
+        <div class="items-grid">
+          {% for item in lost_results %}
+          <article class="item-card">
+            <div class="item-image">
+              {% if item.thumbnail %}
+              <img
+                src="{{ item.thumbnail.url }}"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% elif item.image %}
+              <img
+                src="{{ item.image.url }}"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% else %}
+              <img
+                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% endif %}
+              <span class="item-status {{ item.status }}"
+                >{{ item.get_status_display }}</span
+              >
+            </div>
+
+            <div class="item-content">
+              <div class="item-category">
+                <i class="fas fa-tag"></i>
+                {% if item.category %}{{ item.category.name }}{% else %}General{% endif %}
+              </div>
+
+              <h3 class="item-title">{{ item.title }}</h3>
+              <p class="item-description">
+                {{ item.description|truncatechars:120 }}
+              </p>
+
+              <div class="item-meta">
+                <div class="meta-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  {{ item.location|default:"Unknown" }}
+                </div>
+                {% if item.date_lost %}
+                <div class="meta-item">
+                  <i class="fas fa-calendar"></i> {{ item.date_lost|date:"j M" }}
+                </div>
+                {% endif %}
+              </div>
+
+              <a href="{% url 'lost_detail' item.pk %}" class="btn btn-outline">
+                View Details
+              </a>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+      {% if found_results %}
+      <section style="margin-top: 40px">
+        <h2 class="section-title">Found Items</h2>
+        <div class="items-grid">
+          {% for item in found_results %}
+          <article class="item-card">
+            <div class="item-image">
+              {% if item.thumbnail %}
+              <img
+                src="{{ item.thumbnail.url }}"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% elif item.image %}
+              <img
+                src="{{ item.image.url }}"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% else %}
+              <img
+                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+              {% endif %}
+              <span class="item-status {{ item.status }}"
+                >{{ item.get_status_display }}</span
+              >
+            </div>
+
+            <div class="item-content">
+              <div class="item-category">
+                <i class="fas fa-tag"></i>
+                {% if item.category %}{{ item.category.name }}{% else %}General{% endif %}
+              </div>
+
+              <h3 class="item-title">{{ item.title }}</h3>
+              <p class="item-description">
+                {{ item.description|truncatechars:120 }}
+              </p>
+
+              <div class="item-meta">
+                <div class="meta-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  {{ item.location|default:"Unknown" }}
+                </div>
+                {% if item.date_found %}
+                <div class="meta-item">
+                  <i class="fas fa-calendar"></i> {{ item.date_found|date:"j M" }}
+                </div>
+                {% endif %}
+              </div>
+
+              <a
+                href="{% url 'found_detail' item.pk %}"
+                class=\"btn btn-outline\"
+              >
+                View Details
+              </a>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+  </body>
+</html>
