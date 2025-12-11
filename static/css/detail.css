@@ -65,12 +65,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  object-fit: contain;
 }
 
 .detail-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 90%;
+  /* object-fit: contain; */
   display: block;
 }
 

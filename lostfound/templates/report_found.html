@@ -10,66 +10,173 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/report.css' %}" />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f9f9f9;
+      }
+      .report-container {
+        max-width: 800px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .report-container h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+      }
+      .alert {
+        background: #ffe5e5;
+        color: #c00;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+      }
+      form .form-group {
+        margin-bottom: 20px;
+      }
+      form label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+      }
+      form input[type="text"],
+      form input[type="email"],
+      form input[type="file"],
+      form textarea,
+      form select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+      form textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .help-text {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 3px;
+      }
+      .btn-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+      .btn-primary {
+        background: #007bff;
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #0056b3;
+      }
+      .btn-secondary {
+        background: #ccc;
+        color: #333;
+      }
+      .btn-secondary:hover {
+        background: #999;
+      }
+      .img-preview {
+        display: block;
+        max-width: 200px;
+        max-height: 200px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+
+      @media (max-width: 600px) {
+        .report-container {
+          padding: 20px;
+        }
+        .btn-group {
+          flex-direction: column;
+        }
+        .btn-group .btn {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     {% include 'includes/header.html' %}
+
     <div class="report-container">
       <h1>Report Found Item</h1>
+
       {% if messages %} {% for msg in messages %}
       <div class="alert">{{ msg }}</div>
       {% endfor %} {% endif %}
+
       <form method="post" enctype="multipart/form-data" id="reportFoundForm">
-        {% csrf_token %}
-        <div class="form-row">
-          <div style="flex: 1">
-            {% for field in form.visible_fields %}
-            <div class="form-group">
-              {{ field.label_tag }} {{ field }} {% if field.help_text %}<small
-                class="help-text"
-                >{{ field.help_text }}</small
-              >{% endif %} {% for err in field.errors %}
-              <div class="alert">{{ err }}</div>
-              {% endfor %}
-            </div>
-            {% endfor %}
-          </div>
+        {% csrf_token %} {% for field in form.visible_fields %}
+        <div class="form-group">
+          {{ field.label_tag }} {{ field }} {% if field.help_text %}
+          <small class="help-text">{{ field.help_text }}</small>
+          {% endif %} {% for err in field.errors %}
+          <div class="alert">{{ err }}</div>
+          {% endfor %}
         </div>
+        {% endfor %}
+
         <div class="btn-group">
-          <button class="btn btn-primary" type="submit">Submit Report</button>
+          <button type="submit" class="btn btn-primary">Submit Report</button>
           <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
         </div>
       </form>
-      <script>
-        // file preview and size check
-        const form = document.getElementById("reportFoundForm");
-        const fileInput = form.querySelector("input[type=file]");
-        if (fileInput) {
-          const preview = document.createElement("img");
-          preview.className = "img-preview";
-          fileInput.parentNode.appendChild(preview);
-          fileInput.addEventListener("change", (e) => {
-            const f = e.target.files[0];
-            if (!f) {
-              preview.style.display = "none";
-              return;
-            }
-            if (f.size > 5 * 1024 * 1024) {
-              alert("Image too large (max 5MB)");
-              e.target.value = "";
-              preview.style.display = "none";
-              return;
-            }
-            preview.style.display = "block";
-            const reader = new FileReader();
-            reader.onload = function (ev) {
-              preview.src = ev.target.result;
-            };
-            reader.readAsDataURL(f);
-          });
-        }
-      </script>
     </div>
+
+    <script>
+      // File preview and size check
+      const form = document.getElementById("reportFoundForm");
+      const fileInput = form.querySelector("input[type=file]");
+      if (fileInput) {
+        const preview = document.createElement("img");
+        preview.className = "img-preview";
+        fileInput.parentNode.appendChild(preview);
+        fileInput.addEventListener("change", (e) => {
+          const f = e.target.files[0];
+          if (!f) {
+            preview.style.display = "none";
+            return;
+          }
+          if (f.size > 5 * 1024 * 1024) {
+            alert("Image too large (max 5MB)");
+            e.target.value = "";
+            preview.style.display = "none";
+            return;
+          }
+          preview.style.display = "block";
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            preview.src = ev.target.result;
+          };
+          reader.readAsDataURL(f);
+        });
+      }
+    </script>
+
     {% include 'includes/footer.html' %}
   </body>
 </html>

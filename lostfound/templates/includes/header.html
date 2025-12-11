@@ -1,18 +1,20 @@
-{% load static%}
-<link href="{% static 'styles/header.css'%}" rel="stylesheet" />
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/header.css' %}" />
+
 <header class="main-header">
   <div class="container header-container">
-    <a href="{% url 'home'%}" class="logo">
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="logo">
       <div class="logo-icon">
         <i class="fas fa-search-location"></i>
       </div>
       <span class="logo-text">Reclaim<span class="logo-accent">a</span></span>
     </a>
 
+    <!-- Navigation -->
     <nav class="main-nav">
-      <ul>
+      <ul class="nav-list">
         <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-        <!-- <li><a href="{% url 'lostItems' %}" class="nav-link">Lost Items</a></li> -->
         <li><a href="{% url 'found' %}" class="nav-link">Found Items</a></li>
         <li>
           <a href="{% url 'howItWorks' %}" class="nav-link">How It Works</a>
@@ -25,22 +27,16 @@
       </ul>
     </nav>
 
+    <!-- Actions -->
     <div class="header-actions">
       <div class="report-dropdown-container">
-        <a href="{%url 'report_found'%}" class="btn btn-primary btn-report" id="reportItemBtn">
-          <span>Report found Item</span>
+        <a href="{% url 'report_found' %}" class="btn-report">
+          Report Found Item
         </a>
-        <div class="report-dropdown-menu" id="reportDropdownMenu">
-          <a href="{% url 'report_lost' %}" class="dropdown-item"
-            >Report Lost Item</a
-          >
-          <a href="{% url 'report_found' %}" class="dropdown-item"
-            >Report Found Item</a
-          >
-        </div>
       </div>
     </div>
 
+    <!-- Mobile Menu -->
     <button class="mobile-menu-btn">
       <i class="fas fa-bars"></i>
     </button>

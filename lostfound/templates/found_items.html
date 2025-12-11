@@ -1,4 +1,4 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,237 +9,156 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="{% static 'css/found_items.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/found_items.css' %}" />
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <style>
+      /* --- Basic Responsive Styling --- */
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .items-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .item-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .item-image {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+      }
+      .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .item-status {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff5a5f;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        text-transform: capitalize;
+      }
+      .item-content {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .item-category {
+        font-size: 0.85rem;
+        color: #555;
+      }
+      .item-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #777;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+      }
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+      /* Report Section */
+      .report-section {
+        margin-top: 40px;
+        text-align: center;
+        padding: 30px 20px;
+        background: #f5f5f5;
+        border-radius: 10px;
+      }
+      .cta-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .cta-button:hover {
+        background: #218838;
+      }
+      /* Responsive */
+      @media (max-width: 768px) {
+        .items-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- Header -->
-    {% include 'includes/header.html'%}
-
-    <!-- Page Header -->
-    <section class="page-header">
-      <div class="container">
-        <h1 class="page-title">Found Items</h1>
-        <p class="page-subtitle">
-          Browse through items that have been found by others. If you see
-          something that belongs to you or someone you know, you can claim it.
-          If you've found something, you can report it to help reunite it with
-          its owner.
-        </p>
-
-        <div class="header-stats">
-          <div class="stat">
-            <div class="stat-number">{{ total_found_items }}</div>
-            <div class="stat-label">Items Currently Listed</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">{{ items_returned_this_month }}</div>
-            <div class="stat-label">Items Returned This Month</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">{{ return_rate }}</div>
-            <div class="stat-label">Return Rate</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    {% include 'includes/header.html' %}
 
     <!-- Main Content -->
     <div class="container">
       <div class="main-content">
-        <!-- Filter Sidebar -->
-        <aside class="filter-sidebar">
-          <h2 class="filter-title">
-            <i class="fas fa-filter"></i> Filter Results
-          </h2>
-
-          <!-- Search -->
-          <div class="filter-group">
-            <h3>Search</h3>
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Type item name or description..."
-              style="
-                width: 100%;
-                padding: 12px 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 1rem;
-              "
-            />
-          </div>
-
-          <!-- Category -->
-          <div class="filter-group">
-            <h3>Category</h3>
-            <div class="filter-options">
-              <div class="filter-option">
-                <input type="checkbox" id="cat-electronics" checked />
-                <label for="cat-electronics">Electronics</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-keys" checked />
-                <label for="cat-keys">Keys & Access</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-wallets" checked />
-                <label for="cat-wallets">Wallets & Purses</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-documents" />
-                <label for="cat-documents">Documents</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-jewelry" />
-                <label for="cat-jewelry">Jewelry & Accessories</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-clothing" />
-                <label for="cat-clothing">Clothing</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-bags" />
-                <label for="cat-bags">Bags & Luggage</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="cat-other" />
-                <label for="cat-other">Other</label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Location Found -->
-          <div class="filter-group">
-            <h3>Location Found</h3>
-            <select
-              id="locationFilter"
-              style="
-                width: 100%;
-                padding: 10px 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 1rem;
-              "
-            >
-              <option value="all">All Locations</option>
-              <option value="downtown">Downtown</option>
-              <option value="north">North District</option>
-              <option value="south">South District</option>
-              <option value="east">East Side</option>
-              <option value="west">West Side</option>
-              <option value="transport">Public Transport</option>
-              <option value="airport">Airport</option>
-            </select>
-          </div>
-
-          <!-- Date Found -->
-          <div class="filter-group">
-            <h3>Date Found</h3>
-            <div class="date-inputs">
-              <input type="date" id="dateFrom" />
-              <input type="date" id="dateTo" />
-            </div>
-          </div>
-
-          <!-- Status -->
-          <div class="filter-group">
-            <h3>Status</h3>
-            <div class="filter-options">
-              <div class="filter-option">
-                <input type="checkbox" id="status-unclaimed" checked />
-                <label for="status-unclaimed">Unclaimed</label>
-              </div>
-              <div class="filter-option">
-                <input type="checkbox" id="status-claimed" />
-                <label for="status-claimed">Claimed</label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Filter Buttons -->
-          <div class="filter-buttons">
-            <button class="filter-btn apply-btn" id="applyFilters">
-              Apply Filters
-            </button>
-            <button class="filter-btn reset-btn" id="resetFilters">
-              Reset
-            </button>
-          </div>
-        </aside>
-
-        <!-- Items Grid -->
         <main class="items-container">
-          <div class="items-header">
-            <div class="items-count">
-              Showing {{ found_items|length }} of
-              {{ total_found_items }} found items
+          {% for item in found_items %}
+          <div class="item-card">
+            <div class="item-image">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.title }}" />
+              {% else %}
+              <img
+                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
+                alt="{{ item.title }}"
+              />
+              {% endif %}
+              <span class="item-status {{ item.status }}">
+                {{ item.get_status_display }}
+              </span>
             </div>
-            <div class="sort-options">
-              <span>Sort by:</span>
-              <select id="sortBy">
-                <option value="recent">Most Recent</option>
-                <option value="oldest">Oldest First</option>
-                <option value="location">Location</option>
-                <option value="category">Category</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="items-grid" id="foundItemsGrid">
-            {% for item in found_items %}
-            <div class="item-card">
-              <div class="item-image">
-                {% if item.image %}
-                <img src="{{ item.image.url }}" alt="{{ item.title }}" />
-                {% else %}
-                <img
-                  src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop"
-                  alt="{{ item.title }}"
-                />
-                {% endif %}
-                <span class="item-status {{ item.status }}"
-                  >{{ item.get_status_display }}</span
-                >
+            <div class="item-content">
+              <div class="item-category">
+                <i class="fas fa-tag"></i>
+                {% if item.category %} {{ item.category.name }} {% else %}
+                General {% endif %}
               </div>
-              <div class="item-content">
-                <div class="item-category">
-                  <i class="fas fa-tag"></i>
-                  {% if item.category %}{{ item.category.name }}{% else
-                  %}General{% endif %}
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description|truncatechars:150 }}</p>
+              <div class="item-meta">
+                <div>
+                  <i class="fas fa-map-marker-alt"></i> {{ item.location }}
                 </div>
-                <h3>{{ item.title }}</h3>
-                <p class="item-description">
-                  {{ item.description|truncatechars:150 }}
-                </p>
-                <div class="item-meta">
-                  <div class="meta-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>{{ item.location }}</span>
-                  </div>
-                  <div class="meta-item">
-                    <i class="fas fa-clock"></i>
-                    <span>{{ item.date_found|date:"j M Y" }}</span>
-                  </div>
+                <div>
+                  <i class="fas fa-clock"> <!-- prettier-ignore --> </i>
+                  {{item.date_found|date:"F j, Y" }}
                 </div>
-                <button class="btn btn-primary" onclick="window.location.href='{% url 'found_detail' item.pk %}'">Claim This Item</button>
               </div>
+              <button
+                class="btn btn-primary"
+                onclick='window.location.href="{% url "found_detail" item.pk %}"'
+              >
+                Claim This Item
+              </button>
             </div>
-            {% empty %}
-            <p>No found items listed.</p>
-            {% endfor %}
           </div>
-
-          <!-- Pagination -->
-          <div class="pagination">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">4</button>
-            <button class="page-btn">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
+          {% empty %}
+          <p>No found items listed.</p>
+          {% endfor %}
         </main>
       </div>
 
@@ -247,21 +166,14 @@
       <section class="report-section">
         <h2 class="report-title">Found Something That Isn't Yours?</h2>
         <p class="report-text">
-          If you've found an item that doesn't belong to you, you can report it
-          here. Your report could help reunite someone with their lost
-          belongings. Remember to provide as much detail as possible.
+          Report it here to help reunite someone with their lost belongings.
         </p>
-        <a href="{% url 'report_found' %}" class="cta-button">
-          Report a Found Item
-        </a>
+        <a href="{% url 'report_found' %}" class="cta-button"
+          >Report a Found Item</a
+        >
       </section>
     </div>
 
-    
-
-    <!-- Footer -->
     {% include 'includes/footer.html' %}
-
-    
   </body>
 </html>

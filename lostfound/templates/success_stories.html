@@ -1,340 +1,259 @@
-{% load static%}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Success Stories - Reclaima</title>
-    <link rel="stylesheet" href="{% static 'css/success_stories.css'%}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-  </head>
-  <body>
-    <!-- Header -->
-    {%include 'includes/header.html'%}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Success Stories - Reclaima</title>
+  <link rel="stylesheet" href="{% static 'css/success_stories.css'%}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+    .container { max-width: 1200px; margin: auto; padding: 1rem; }
+    h1,h2,h3,h4 { margin: 0; }
 
-    <!-- Page Header -->
-    <section class="page-header">
-      <div class="container">
-        <h1 class="page-title">Success Stories</h1>
-        <p class="page-subtitle">
-          Discover heartwarming stories of people reunited with their lost
-          belongings through Reclaima. These stories remind us that kindness
-          still exists and that lost items can find their way home.
-        </p>
+    /* Stories Grid */
+    .stories-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
 
-        <div class="header-stats">
-          <div class="stat">
-            <div class="stat-number">15,872+</div>
-            <div class="stat-label">Happy Reunions</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">94%</div>
-            <div class="stat-label">Satisfaction Rate</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">2,450+</div>
-            <div class="stat-label">Stories Shared</div>
-          </div>
-        </div>
+    .story-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      height: 100%;
+    }
+
+    .story-card:hover { transform: translateY(-5px); }
+    .story-image-small img { width: 100%; height: 180px; object-fit: cover; }
+    .story-content { flex-grow: 1; padding: 1rem; }
+    .story-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem 1rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .story-category-badge { background: #f0f0f0; padding: 3px 8px; border-radius: 8px; font-size: 0.8rem; }
+    .cta-button {
+      margin: 0.5rem 1rem 1rem 1rem;
+      padding: 0.5rem;
+      background-color: #2c7a7b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+    .cta-button:hover { background-color: #285e61; }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: #fff;
+      margin: auto;
+      border-radius: 12px;
+      max-width: 800px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .modal-header { display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { margin: 0; font-size: 1.5rem; }
+    .close-modal { font-size: 2rem; background: none; border: none; cursor: pointer; color: #555; }
+
+    .story-image-large img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
+    .story-meta-large { display: flex; justify-content: flex-start; gap: 1rem; margin-bottom: 1rem; color: #555; font-size: 0.9rem; }
+    .story-content-full { font-size: 1rem; line-height: 1.6; color: #333; }
+
+    /* Share Story Form */
+    .share-story { background: #fff; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .share-story h2 { margin-bottom: 1rem; }
+    .share-story p { margin-bottom: 1.5rem; color: #555; }
+    .share-form .form-group { margin-bottom: 1rem; }
+    .share-form input, .share-form textarea, .share-form select { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; }
+    .share-form button { background: #2c7a7b; color: #fff; border: none; padding: 0.75rem; width: 100%; border-radius: 8px; cursor: pointer; }
+    .share-form button:hover { background: #285e61; }
+    .privacy-note { font-size: 0.85rem; color: #777; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  </style>
+</head>
+<body>
+  {% include 'includes/header.html' %}
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">Success Stories</h1>
+      <p class="page-subtitle">
+        Discover heartwarming stories of people reunited with their lost belongings through Reclaima.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stories Grid -->
+  <section class="stories-grid">
+    <div class="container">
+      <div class="section-title">
+        <h2>Recent Success Stories</h2>
+        <p>Browse through inspiring reunions from our community members</p>
       </div>
-    </section>
 
-    <!-- Featured Story -->
-    <section class="featured-story">
-      <div class="container">
-        <div class="featured-container">
-          <div class="featured-content">
-            <h2>
-              Featured Story: <span>A Grandmother's Necklace Returns Home</span>
-            </h2>
-
-            <div class="story-meta">
-              <div><i class="fas fa-user"></i> Jessica Williams</div>
-              <div><i class="fas fa-calendar-alt"></i> October 5, 2023</div>
-              <div><i class="fas fa-tag"></i> Jewelry</div>
-            </div>
-
-            <p>
-              When Jessica moved apartments, she lost her grandmother's necklace
-              - a family heirloom passed down through three generations. After
-              weeks of searching and losing hope, she decided to post on
-              Reclaima as a last resort.
-            </p>
-
-            <div class="story-highlight">
-              <p>
-                "I had given up all hope of ever seeing that necklace again. It
-                wasn't just jewelry to me - it was a connection to my
-                grandmother and the stories she used to tell."
-              </p>
-            </div>
-
-            <p>
-              Two months later, a construction worker found the necklace at a
-              nearby demolition site and posted it on Reclaima. The unique
-              description of the pendant's engraving made it easy for Jessica to
-              identify as hers.
-            </p>
-
-            <p>
-              "When I got the notification that my necklace might have been
-              found, I couldn't believe it. Meeting the person who found it was
-              emotional - we both cried. Reclaima didn't just return my
-              necklace; it restored my faith in people."
-            </p>
-
-            <button class="cta-button" id="readFullStory">
-              Read Full Story
-            </button>
+      <div class="stories-container">
+        {% for story in stories %}
+        <div class="story-card" data-story-id="{{ story.id }}">
+          <div class="story-image-small">
+            {% if story.image and story.image.url %}
+            <img src="{{ story.image.url }}" alt="{{ story.title }}" onerror="this.style.display='none'">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Success story">
+            {% endif %}
           </div>
-
-          <div class="featured-image">
-            <img
-              src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-              alt="Necklace reunion story"
-            />
-            <div class="story-category">Jewelry</div>
+          <div class="story-content">
+            <p>{{ story.content|truncatechars:200 }}</p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stories Grid -->
-    <section class="stories-grid">
-      <div class="container">
-        <div class="section-title">
-          <h2>Recent Success Stories</h2>
-          <p>Browse through inspiring reunions from our community members</p>
-        </div>
-
-        <div class="stories-container" id="storiesContainer">
-          {% for story in stories %}
-          <div class="story-card">
-            <div class="story-content">
-              <div class="quote-icon">
-                <i class="fas fa-quote-left"></i>
-              </div>
-              <p>{{ story.content|truncatechars:300 }}</p>
-            </div>
+          <div class="story-footer">
             <div class="story-author">
-              <div>
-                <h4>{{ story.author_name }}</h4>
-                <p>{{ story.created_at|date:"j M Y" }}</p>
-              </div>
+              <h4>{{ story.author_name }}</h4>
+              <p>{{ story.created_at|date:"M d, Y" }}</p>
             </div>
+            <div class="story-category-badge">{{ story.get_category_display }}</div>
           </div>
-          {% empty %}
-          <p>No success stories yet.</p>
-          {% endfor %}
+          <button class="cta-button view-full-story" data-story-id="{{ story.id }}">Read Full Story</button>
         </div>
-      </div>
-    </section>
-
-    <!-- Video Stories -->
-    <section class="video-stories">
-      <div class="container">
-        <div class="section-title">
-          <h2>Video Testimonials</h2>
-          <p>Watch emotional reunions and hear directly from our community</p>
+        {% empty %}
+        <div class="no-stories">
+          <i class="fas fa-book-open"></i>
+          <h3>No Success Stories Yet</h3>
+          <p>Be the first to share your reunion story!</p>
+          <a href="#share-story" class="btn btn-primary">Share Your Story</a>
         </div>
-
-        <div class="video-container">
-          <div class="video-card">
-            <div class="video-thumbnail">
-              <img
-                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Wallet reunion"
-              />
-              <div class="play-button">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <div class="video-info">
-              <h3>Wallet Returned After 3 Months</h3>
-              <p>
-                Michael thought his wallet with all his IDs was gone forever
-                until a stranger found it and used Reclaima to contact him.
-              </p>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-thumbnail">
-              <img
-                src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Laptop reunion"
-              />
-              <div class="play-button">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <div class="video-info">
-              <h3>Laptop with Thesis Recovered</h3>
-              <p>
-                A graduate student's laptop containing her master's thesis was
-                found by a taxi driver and returned just days before her
-                deadline.
-              </p>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-thumbnail">
-              <img
-                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="Lost dog reunion"
-              />
-              <div class="play-button">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <div class="video-info">
-              <h3>Lost Dog Reunited with Family</h3>
-              <p>
-                Using Reclaima's pet category, a family found their missing dog
-                who had wandered miles from home.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Share Your Story -->
-    <section class="share-story">
-      <div class="container">
-        <div class="share-container">
-          <h2>Share Your Success Story</h2>
-          <p>
-            Have you been reunited with a lost item through Reclaima? Share your
-            story to inspire others and spread hope. Your experience could
-            encourage someone who's lost something precious.
-          </p>
-
-          <div class="share-form">
-            <div class="privacy-note">
-              <i class="fas fa-info-circle"></i> Your story may be featured on
-              our website and social media. We'll never share your contact
-              information without your permission.
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="yourName">Your Name *</label>
-                <input
-                  type="text"
-                  id="yourName"
-                  placeholder="How should we credit you?"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="yourEmail">Your Email *</label>
-                <input
-                  type="email"
-                  id="yourEmail"
-                  placeholder="We'll contact you before publishing"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="storyTitle">Story Title *</label>
-              <input
-                type="text"
-                id="storyTitle"
-                placeholder="A catchy title for your story"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="itemCategory">Item Category *</label>
-              <select id="itemCategory" required>
-                <option value="">Select a category</option>
-                <option value="electronics">Electronics</option>
-                <option value="keys">Keys & Access</option>
-                <option value="wallets">Wallets & Purses</option>
-                <option value="documents">Documents</option>
-                <option value="jewelry">Jewelry & Accessories</option>
-                <option value="clothing">Clothing</option>
-                <option value="bags">Bags & Luggage</option>
-                <option value="pets">Pets</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="yourStory">Your Story *</label>
-              <textarea
-                id="yourStory"
-                placeholder="Tell us about your experience - what you lost, how it was found, and what the reunion meant to you..."
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Upload Photos (Optional)</label>
-              <div class="file-upload">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>
-                  Drag and drop or click to upload photos related to your story
-                </p>
-                <p style="font-size: 0.9rem; color: var(--gray)">
-                  Max file size: 5MB each
-                </p>
-              </div>
-            </div>
-
-            <button class="cta-button" style="width: 100%">
-              Submit Your Story
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Story Detail Modal -->
-    <div class="modal" id="storyModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="modalStoryTitle">Story Title</h2>
-          <button class="close-modal" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="full-story">
-            <div class="story-meta-large">
-              <div>
-                <i class="fas fa-user"></i>
-                <span id="modalAuthor">Author Name</span>
-              </div>
-              <div>
-                <i class="fas fa-calendar-alt"></i>
-                <span id="modalDate">Date</span>
-              </div>
-              <div>
-                <i class="fas fa-tag"></i>
-                <span id="modalCategory">Category</span>
-              </div>
-            </div>
-
-            <div class="story-image-large">
-              <img id="modalImage" src="" alt="Story image" />
-            </div>
-
-            <div class="story-content" id="modalContent">
-              <!-- Full story content will be inserted here -->
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
+  </section>
 
-    <!-- Footer -->
-    {% include 'includes/footer.html' %}
-    <script src="{%static 'js/success_stories.js'%}"></script>
-  </body>
+  <!-- Share Your Story Form -->
+  <section class="share-story" id="share-story">
+    <div class="container">
+      <h2>Share Your Success Story</h2>
+      <p>Have you been reunited with a lost item through Reclaima? Share your story to inspire others!</p>
+      <form method="POST" action="{% url 'submit_success_story' %}" class="share-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="privacy-note"><i class="fas fa-info-circle"></i> Your story may be featured. We'll never share your contact info without permission.</div>
+
+        <div class="form-group">
+          <label for="author_name">Your Name *</label>
+          <input type="text" id="author_name" name="author_name" required value="{{ form.author_name.value|default:'' }}">
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email *</label>
+          <input type="email" id="email" name="email" required value="{{ form.email.value|default:'' }}">
+        </div>
+        <div class="form-group">
+          <label for="title">Story Title *</label>
+          <input type="text" id="title" name="title" required value="{{ form.title.value|default:'' }}">
+        </div>
+        <div class="form-group">
+          <label for="category">Item Category *</label>
+          <select id="category" name="category" required>
+            <option value="">Select a category</option>
+            {% for value, label in form.fields.category.choices %}
+            <option value="{{ value }}" {% if form.category.value == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="content">Your Story *</label>
+          <textarea id="content" name="content" required rows="6">{{ form.content.value|default:'' }}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="image">Upload Photo (Optional)</label>
+          <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(this)">
+          <div id="uploadPreview"></div>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" name="allow_featured" {% if form.allow_featured.value %}checked{% endif %}> Allow my story to be featured</label>
+        </div>
+        <button type="submit">Submit Your Story</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Story Detail Modal -->
+  <div class="modal" id="storyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalStoryTitle"></h2>
+        <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="story-image-large"><img id="modalImage" src="" alt="Story image"></div>
+        <div class="story-meta-large">
+          <span><i class="fas fa-user"></i> <span id="modalAuthor"></span></span>
+          <span><i class="fas fa-calendar-alt"></i> <span id="modalDate"></span></span>
+          <span><i class="fas fa-tag"></i> <span id="modalCategory"></span></span>
+        </div>
+        <div class="story-content-full" id="modalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'includes/footer.html' %}
+
+  <script>
+    function previewImage(input) {
+      const preview = document.getElementById('uploadPreview');
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" style="max-width:200px;border-radius:8px;">`;
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Modal Logic
+    const modal = document.getElementById('storyModal');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    document.querySelectorAll('.view-full-story').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const storyId = btn.getAttribute('data-story-id');
+        try {
+          const response = await fetch(`/stories/${storyId}/`);
+          const data = await response.json();
+          document.getElementById('modalStoryTitle').textContent = data.title;
+          document.getElementById('modalAuthor').textContent = data.author_name;
+          document.getElementById('modalDate').textContent = data.created_at;
+          document.getElementById('modalCategory').textContent = data.category;
+          document.getElementById('modalContent').textContent = data.content;
+          document.getElementById('modalImage').src = data.image || 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+          modal.style.display = 'block';
+        } catch (err) { console.error(err); }
+      });
+    });
+
+    closeModalBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    window.addEventListener('click', e => { if(e.target===modal) modal.style.display='none'; });
+  </script>
+</body>
 </html>
