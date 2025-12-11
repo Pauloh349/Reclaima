@@ -251,146 +251,17 @@
           here. Your report could help reunite someone with their lost
           belongings. Remember to provide as much detail as possible.
         </p>
-        <button class="cta-button" id="openReportModal">
+        <a href="{% url 'report_found' %}" class="cta-button">
           Report a Found Item
-        </button>
+        </a>
       </section>
     </div>
 
-    <!-- Report Item Modal -->
-    <div class="modal" id="reportModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">Report a Found Item</h2>
-          <button class="close-modal" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="found-location-info">
-            <h4><i class="fas fa-info-circle"></i> Before You Report</h4>
-            <p>
-              Please make sure you've taken reasonable steps to find the owner
-              locally before reporting here. Check if there's an ID or contact
-              information in the item.
-            </p>
-          </div>
-
-          <form id="reportForm">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="itemName">Item Name *</label>
-                <input
-                  type="text"
-                  id="itemName"
-                  placeholder="e.g., iPhone 12, Black Wallet, Car Keys"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="itemCategory">Category *</label>
-                <select id="itemCategory" required>
-                  <option value="">Select a category</option>
-                  <option value="electronics">Electronics</option>
-                  <option value="keys">Keys & Access</option>
-                  <option value="wallets">Wallets & Purses</option>
-                  <option value="documents">Documents</option>
-                  <option value="jewelry">Jewelry & Accessories</option>
-                  <option value="clothing">Clothing</option>
-                  <option value="bags">Bags & Luggage</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="foundDate">Date Found *</label>
-                <input type="date" id="foundDate" required />
-              </div>
-              <div class="form-group">
-                <label for="foundLocation">Location Found *</label>
-                <input
-                  type="text"
-                  id="foundLocation"
-                  placeholder="e.g., Downtown Mall, Central Station, Park Ave"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="foundAddress">Specific Address (Optional)</label>
-              <input
-                type="text"
-                id="foundAddress"
-                placeholder="Exact address or location details"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="itemDescription">Description *</label>
-              <textarea
-                id="itemDescription"
-                rows="4"
-                placeholder="Provide a detailed description of the item, including brand, color, size, distinguishing features, and any contents if applicable..."
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="finderName">Your Name *</label>
-                <input
-                  type="text"
-                  id="finderName"
-                  placeholder="How should we refer to you?"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="contactEmail">Your Email *</label>
-                <input
-                  type="email"
-                  id="contactEmail"
-                  placeholder="We'll use this to connect you with the owner"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Upload Photos (Optional but helpful)</label>
-              <div class="file-upload" id="fileUpload">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Drag and drop or click to upload photos of the found item</p>
-                <p style="font-size: 0.9rem; color: var(--gray)">
-                  Max file size: 5MB each
-                </p>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="filter-option">
-                <input type="checkbox" id="safeStorage" required />
-                <label for="safeStorage"
-                  >I agree to safely store this item until the owner is found
-                  *</label
-                >
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="filter-btn reset-btn" id="cancelReport">Cancel</button>
-          <button class="filter-btn apply-btn" id="submitReport">
-            Submit Report
-          </button>
-        </div>
-      </div>
-    </div>
+    
 
     <!-- Footer -->
     {% include 'includes/footer.html' %}
 
-    <script src="{% static 'js/found_items.js'%}"></script>
+    
   </body>
 </html>

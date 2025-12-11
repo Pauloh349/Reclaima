@@ -100,6 +100,7 @@ def search_results(request):
     return render(request, 'search_results.html', {'search_form': form, 'lost_results': lost_results, 'found_results': found_results})
 
 
+def found(request):
     from datetime import date
     from django.db.models import Count
 
@@ -199,6 +200,10 @@ def mark_lost_claim(request, pk):
             pass
         messages.success(request, 'Lost item marked as claimed.')
     return redirect('lost_detail', pk=pk)
+
+def found(request):
+    items = FoundItem.objects.filter(status="unclaimed").order_by("-created_at")
+    return render(request, "found_items.html", {"found_items": items})
 
 
 def mark_found_claim(request, pk):
