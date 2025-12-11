@@ -22,7 +22,7 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-container">
-                <div class="hero-text-content">
+        <div class="hero-text-content">
           <div class="hero-badge">
             <span>Trusted by 50,000+ users</span>
           </div>
@@ -36,59 +36,61 @@
             items with their owners.
           </p>
           <div class="hero-actions">
-            <button class="btn btn-primary btn-lg">
+            <a href="{% url 'found' %}" class="btn btn-primary btn-lg">
               <i class="fas fa-search"></i>
-              <span>Find Lost Item</span>
-            </button>
-            <button class="btn btn-secondary btn-lg">
+              <span>Find Found Item</span>
+            </a>
+            <a href="{% url 'report_found' %}" class="btn btn-secondary btn-lg">
               <i class="fas fa-hand-holding-heart"></i>
               <span>Report Found Item</span>
-            </button>
+            </a>
           </div>
         </div>
         <div class="hero-search-content">
-          <div class="search-box-wrapper">
+          <form
+            action="{% url 'search_results' %}"
+            method="get"
+            class="search-box-wrapper"
+          >
             <div class="search-box">
               <i class="fas fa-search search-icon"></i>
               <input
                 type="text"
                 id="searchInput"
-                placeholder="Describe what you lost or found (e.g., 'black wallet', 'iPhone 12', 'keys with blue tag')"
+                name="q"
+                placeholder="Describe what you lost or found..."
                 class="search-input"
               />
-              <select class="location-select">
-                <option value="">Any Location</option>
-                <option value="nyc">New York City</option>
-                <option value="la">Los Angeles</option>
-                <option value="chi">Chicago</option>
-              </select>
-              <button class="btn btn-primary search-btn">
-                <span>Search Now</span>
+              <button class="btn btn-primary search-btn" type="submit">
+                <span>Search</span>
                 <i class="fas fa-arrow-right"></i>
               </button>
             </div>
-          </div>
+          </form>
 
           <div class="popular-searches">
             <h4>Popular Searches:</h4>
             <div class="search-tags">
-              <a href="#" class="search-tag">
+              <a
+                href="{% url 'search_results' %}?q=Smartphones"
+                class="search-tag"
+              >
                 <i class="fas fa-mobile-alt"></i>
                 Smartphones
               </a>
-              <a href="#" class="search-tag">
+              <a href="{% url 'search_results' %}?q=Wallets" class="search-tag">
                 <i class="fas fa-wallet"></i>
                 Wallets & IDs
               </a>
-              <a href="#" class="search-tag">
+              <a href="{% url 'search_results' %}?q=Keys" class="search-tag">
                 <i class="fas fa-key"></i>
                 Keys
               </a>
-              <a href="#" class="search-tag">
+              <a href="{% url 'search_results' %}?q=Laptops" class="search-tag">
                 <i class="fas fa-laptop"></i>
                 Laptops
               </a>
-              <a href="#" class="search-tag">
+              <a href="{% url 'search_results' %}?q=Eyewear" class="search-tag">
                 <i class="fas fa-glasses"></i>
                 Eyewear
               </a>
@@ -119,10 +121,10 @@
               Describe your lost item with details, location, and upload photos
               for better identification.
             </p>
-            <button class="btn-link">
+            <a href="{% url 'howItWorks' %}" class="btn-link">
               <span>Learn more</span>
               <i class="fas fa-arrow-right"></i>
-            </button>
+            </a>
           </div>
 
           <div class="step-card">
@@ -135,10 +137,10 @@
               Our smart system instantly matches your report with found items
               using advanced algorithms.
             </p>
-            <button class="btn-link">
+            <a href="{% url 'howItWorks' %}" class="btn-link">
               <span>Learn more</span>
               <i class="fas fa-arrow-right"></i>
-            </button>
+            </a>
           </div>
 
           <div class="step-card">
@@ -151,10 +153,10 @@
               Connect safely through our platform and arrange a secure return
               with built-in verification.
             </p>
-            <button class="btn-link">
+            <a href="{% url 'howItWorks' %}" class="btn-link">
               <span>Learn more</span>
               <i class="fas fa-arrow-right"></i>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -188,15 +190,15 @@
     <section class="featured-items">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Recently Lost Items</h2>
-          <a href="{% url 'lostItems' %}" class="view-all">
+          <h2 class="section-title">Recently Found Items</h2>
+          <a href="{% url 'found' %}" class="view-all">
             <span>View All Items</span>
             <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
         <div class="items-grid">
-          {% for item in recent_lost %}
+          {% for item in recent_found %}
           <div class="item-card">
             <div class="item-image">
               <img
@@ -227,7 +229,7 @@
                   <span>{{ item.date_lost|date:"j M" }}</span>
                 </div>
               </div>
-              <button class="btn btn-outline">View Details</button>
+                            <a href="{% url 'found_detail' item.pk %}" class="btn btn-outline">View Details</a>
             </div>
           </div>
           {% empty %}
@@ -264,11 +266,11 @@
                 hours. This service is incredible!"
               </p>
             </div>
-... (backup file created)
           </div>
         </div>
       </div>
     </section>
+
     {% include 'includes/footer.html' %}
     <script src="{% static 'js/home.js' %}"></script>
   </body>

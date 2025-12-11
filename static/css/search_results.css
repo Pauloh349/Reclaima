@@ -1,0 +1,139 @@
+.page-header {
+    background-color: var(--white-color);
+    padding: 3rem 0;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray-color);
+}
+
+.back-home {
+    margin-top: 1.5rem;
+}
+
+.alert {
+    background-color: #ffeeba;
+    color: #856404;
+    padding: 1rem;
+    border: 1px solid #ffe8a8;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--dark-gray-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.item-card {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+}
+
+.item-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.item-status.lost {
+    background-color: var(--accent);
+}
+
+.item-status.claimed {
+    background-color: var(--secondary-color);
+}
+
+.item-content {
+    padding: 1.5rem;
+}
+
+.item-category {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.item-title {
+    font-size: 1.2rem;
+    color: var(--dark-gray-color);
+    margin-bottom: 0.5rem;
+}
+
+.item-description {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.item-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--light-gray-color);
+    margin-bottom: 1.5rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Responsive adjustments for search_results page */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .items-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -230,30 +230,4 @@ def mark_found_claim(request, pk):
     return redirect('found_detail', pk=pk)
 
 
-def signin(request):
-    """Handle user sign in"""
-    if request.user.is_authenticated:
-        return redirect('home')
-    
-    if request.method == 'POST':
-        from django.contrib.auth import authenticate, login
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, f'Welcome back, {user.first_name or user.username}!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    
-    return render(request, 'signin.html')
 
-
-def signup(request):
-    """Handle user sign up"""
-    if request.user.is_authenticated:
-        return redirect('home')
-    
-    return render(request, 'signup.html')

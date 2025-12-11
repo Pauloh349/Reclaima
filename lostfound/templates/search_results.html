@@ -7,13 +7,13 @@
     <title>Search Results — Reclaima</title>
 
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/report.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/search_results.css' %}" />
   </head>
 
   <body>
     {% include 'includes/header.html' %}
 
-    <main class="container" style="padding: 28px 16px">
+    <main class="container">
       <header class="page-header">
         <h1>Search Results</h1>
         <div class="back-home" style="margin: 12px 0">
@@ -144,7 +144,7 @@
 
               <a
                 href="{% url 'found_detail' item.pk %}"
-                class=\"btn btn-outline\"
+                class="btn btn-outline"
               >
                 View Details
               </a>

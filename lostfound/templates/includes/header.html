@@ -1,3 +1,5 @@
+{% load static%}
+<link href="{% static 'styles/header.css'%}" rel="stylesheet" />
 <header class="main-header">
   <div class="container header-container">
     <a href="{% url 'home'%}" class="logo">
@@ -10,7 +12,7 @@
     <nav class="main-nav">
       <ul>
         <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-        <li><a href="{% url 'lostItems' %}" class="nav-link">Lost Items</a></li>
+        <!-- <li><a href="{% url 'lostItems' %}" class="nav-link">Lost Items</a></li> -->
         <li><a href="{% url 'found' %}" class="nav-link">Found Items</a></li>
         <li>
           <a href="{% url 'howItWorks' %}" class="nav-link">How It Works</a>
@@ -25,21 +27,17 @@
 
     <div class="header-actions">
       <div class="report-dropdown-container">
-        <button class="btn btn-primary btn-report" id="reportItemBtn">
-          <i class="fas fa-plus-circle"></i>
-          <span>Report Item</span>
-          <i class="fas fa-caret-down"></i>
-        </button>
-        <div class="report-dropdown-menu" id="reportDropdownMenu">
-          <a href="{% url 'report_lost' %}" class="dropdown-item">Report Lost Item</a>
-          <a href="{% url 'report_found' %}" class="dropdown-item">Report Found Item</a>
-        </div>
-      </div>
-      <div class="user-menu">
-        <a href="{% url 'signin' %}" class="btn btn-ghost">
-          <i class="fas fa-user-circle"></i>
-          <span>Sign In</span>
+        <a href="{%url 'report_found'%}" class="btn btn-primary btn-report" id="reportItemBtn">
+          <span>Report found Item</span>
         </a>
+        <div class="report-dropdown-menu" id="reportDropdownMenu">
+          <a href="{% url 'report_lost' %}" class="dropdown-item"
+            >Report Lost Item</a
+          >
+          <a href="{% url 'report_found' %}" class="dropdown-item"
+            >Report Found Item</a
+          >
+        </div>
       </div>
     </div>
 
