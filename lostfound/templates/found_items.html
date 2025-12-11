@@ -29,15 +29,15 @@
 
         <div class="header-stats">
           <div class="stat">
-            <div class="stat-number">1,245</div>
+            <div class="stat-number">{{ total_found_items }}</div>
             <div class="stat-label">Items Currently Listed</div>
           </div>
           <div class="stat">
-            <div class="stat-number">892</div>
+            <div class="stat-number">{{ items_returned_this_month }}</div>
             <div class="stat-label">Items Returned This Month</div>
           </div>
           <div class="stat">
-            <div class="stat-number">72%</div>
+            <div class="stat-number">{{ return_rate }}</div>
             <div class="stat-label">Return Rate</div>
           </div>
         </div>
@@ -172,8 +172,8 @@
         <main class="items-container">
           <div class="items-header">
             <div class="items-count">
-              Showing <span id="itemsShown">8</span> of
-              <span id="itemsTotal">1,245</span> found items
+              Showing {{ found_items|length }} of
+              {{ total_found_items }} found items
             </div>
             <div class="sort-options">
               <span>Sort by:</span>
@@ -222,7 +222,7 @@
                     <span>{{ item.date_found|date:"j M Y" }}</span>
                   </div>
                 </div>
-                <button class="btn btn-primary">Claim This Item</button>
+                <button class="btn btn-primary" onclick="window.location.href='{% url 'found_detail' item.pk %}'">Claim This Item</button>
               </div>
             </div>
             {% empty %}

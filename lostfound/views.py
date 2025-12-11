@@ -100,9 +100,31 @@ def search_results(request):
     return render(request, 'search_results.html', {'search_form': form, 'lost_results': lost_results, 'found_results': found_results})
 
 
-def found(request):
+    from datetime import date
+    from django.db.models import Count
+
     items = FoundItem.objects.filter(status="unclaimed").order_by("-created_at")
-    return render(request, "found_items.html", {"found_items": items})
+    
+    total_found_items = items.count()
+    items_returned_this_month = SuccessStory.objects.filter(
+        created_at__year=date.today().year,
+        created_at__month=date.today().month
+    ).count()
+    
+    # Calculate a simple return rate (avoid division by zero)
+    if total_found_items > 0:
+        return_rate = (items_returned_this_month / total_found_items) * 100
+        return_rate = round(return_rate) # Round to nearest whole number
+    else:
+        return_rate = 0
+    
+    context = {
+        "found_items": items,
+        "total_found_items": total_found_items,
+        "items_returned_this_month": items_returned_this_month,
+        "return_rate": f"{return_rate}%"
+    }
+    return render(request, "found_items.html", context)
 
 
 def howItWorks(request):
