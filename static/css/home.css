@@ -34,6 +34,42 @@ body {
     z-index: 1000;
 }
 
+.report-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.report-dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: var(--white-color);
+    min-width: 160px;
+    box-shadow: var(--box-shadow);
+    z-index: 1;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    top: 100%; /* Position below the button */
+    left: 0;
+    margin-top: 5px; /* Small gap between button and dropdown */
+}
+
+.report-dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--light-gray-color);
+}
+
+
 /* Hero Section */
 .hero {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80');
@@ -202,6 +238,75 @@ body {
 .testimonial-author {
     margin-top: 1rem;
     font-weight: 600;
+}
+
+/* Search Section */
+.search-box-wrapper {
+    background-color: var(--white-color);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    width: 900px;
+}
+
+.location-select {
+    /* width: 200px; */
+    flex-shrink: 0;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+}
+
+.search-btn {
+    padding: 1rem 2rem;
+}
+
+.popular-searches {
+    margin-top: 1rem;
+    color: var(--light-gray-color);
+}
+
+.search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.search-tag {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-tag:hover {
+    background-color: #2980b9;
 }
 
 /* CTA Section */

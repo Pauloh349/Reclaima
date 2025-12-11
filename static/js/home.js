@@ -145,6 +145,25 @@ function initPage() {
       )}`;
     });
   });
+
+  const reportItemBtn = document.getElementById("reportItemBtn");
+  const reportDropdownMenu = document.getElementById("reportDropdownMenu");
+
+  if (reportItemBtn && reportDropdownMenu) {
+    reportItemBtn.addEventListener("click", function (event) {
+      reportDropdownMenu.classList.toggle("show");
+      event.stopPropagation(); // Prevent the window click listener from closing it immediately
+    });
+
+    // Close the dropdown if the user clicks outside of it
+    window.addEventListener("click", function (event) {
+      if (!event.target.matches("#reportItemBtn, #reportItemBtn *")) {
+        if (reportDropdownMenu.classList.contains("show")) {
+          reportDropdownMenu.classList.remove("show");
+        }
+      }
+    });
+  }
 }
 
 // Initialize the page when DOM is loaded

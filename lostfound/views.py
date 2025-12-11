@@ -33,8 +33,8 @@ def home(request):
         found_qs = FoundItem.objects.filter(status='unclaimed')
 
         if q:
-            lost_qs = lost_qs.filter(title__iexact=q)
-            found_qs = found_qs.filter(title__iexact=q)
+            lost_qs = lost_qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
+            found_qs = found_qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
         if cat:
             lost_qs = lost_qs.filter(category=cat)
             found_qs = found_qs.filter(category=cat)
@@ -79,8 +79,8 @@ def search_results(request):
         found_qs = FoundItem.objects.filter(status='unclaimed')
 
         if q:
-            lost_qs = lost_qs.filter(title__iexact=q)
-            found_qs = found_qs.filter(title__iexact=q)
+            lost_qs = lost_qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
+            found_qs = found_qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
         if cat:
             lost_qs = lost_qs.filter(category=cat)
             found_qs = found_qs.filter(category=cat)

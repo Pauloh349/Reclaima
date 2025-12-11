@@ -24,10 +24,17 @@
     </nav>
 
     <div class="header-actions">
-      <a href="{% url 'report_lost' %}" class="btn btn-primary btn-report">
-        <i class="fas fa-plus-circle"></i>
-        <span>Report Item</span>
-      </a>
+      <div class="report-dropdown-container">
+        <button class="btn btn-primary btn-report" id="reportItemBtn">
+          <i class="fas fa-plus-circle"></i>
+          <span>Report Item</span>
+          <i class="fas fa-caret-down"></i>
+        </button>
+        <div class="report-dropdown-menu" id="reportDropdownMenu">
+          <a href="{% url 'report_lost' %}" class="dropdown-item">Report Lost Item</a>
+          <a href="{% url 'report_found' %}" class="dropdown-item">Report Found Item</a>
+        </div>
+      </div>
       <div class="user-menu">
         <a href="{% url 'signin' %}" class="btn btn-ghost">
           <i class="fas fa-user-circle"></i>
