@@ -3,11 +3,9 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('lost_items/', views.lostItems, name='lostItems'),
     path('found/', views.found, name='found'),
     path('report/lost/', views.report_lost, name='report_lost'),
     path('report/found/', views.report_found, name='report_found'),
-    path('lost/<int:pk>/', views.lost_item_detail, name='lost_detail'),
     path('found/<int:pk>/', views.found_item_detail, name='found_detail'),
     path('lost/<int:pk>/claim/', views.mark_lost_claim, name='mark_lost_claim'),
     path('found/<int:pk>/claim/', views.mark_found_claim, name='mark_found_claim'),
@@ -15,5 +13,6 @@ urlpatterns = [
     path('how_it_works/', views.howItWorks, name='howItWorks'),
     path('success_stories/', views.successStories, name='successStories'),
     path('submit_success_story/', views.submit_success_story, name='submit_success_story'),
-    path('api/story/<int:story_id>/', views.get_story_detail, name='get_story_detail'),
+    path("stories/<int:story_id>/", views.get_story_detail, name="get_story_detail"),
+
 ]

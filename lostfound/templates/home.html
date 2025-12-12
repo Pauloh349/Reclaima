@@ -203,24 +203,6 @@
             <div class="step-header">
               <div class="step-number">02</div>
               <div class="step-icon">
-                <i class="fas fa-robot"></i>
-              </div>
-            </div>
-            <h3>AI-Powered Matching</h3>
-            <p>
-              Our smart system instantly matches your report with found items
-              using advanced algorithms.
-            </p>
-            <a href="{% url 'howItWorks' %}" class="btn-link">
-              <span>Learn more</span>
-              <i class="fas fa-arrow-right"></i>
-            </a>
-          </div>
-
-          <div class="step-card">
-            <div class="step-header">
-              <div class="step-number">03</div>
-              <div class="step-icon">
                 <i class="fas fa-handshake"></i>
               </div>
             </div>
@@ -323,8 +305,9 @@
             <div class="item-content">
               <div class="item-category">
                 <i class="fas fa-tag"></i>
-                {% if item.category %}{{ item.category.name }}{% else
-                %}General{% endif %}
+                {% if item.category %}{{ item.category.name }}
+                <!--prettier-ignore-->
+                {% else %}General{% endif %}
               </div>
               <h3>{{ item.title }}</h3>
               <p class="item-description">
@@ -337,7 +320,7 @@
                 </div>
                 <div class="meta-item">
                   <i class="fas fa-calendar-alt"></i>
-                  <span>{{ item.date_lost|date:"j M, Y" }}</span>
+                  <span>{{ item.date_found|date:"M d, Y" }}</span>
                 </div>
               </div>
               <a href="{% url 'found_detail' item.pk %}" class="btn btn-outline"

@@ -14,16 +14,17 @@
     {% include 'includes/header.html' %}
 
     <main class="container">
-      <header class="page-header">
+      <!-- <header class="page-header">
         <h1>Search Results</h1>
         <div class="back-home" style="margin: 12px 0">
           <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
         </div>
-      </header>
+      </header> -->
 
       {% if not lost_results and not found_results %}
       <div class="alert">No results found for your search.</div>
       {% endif %}
+      <!--prettier-ignore-->
       {# ---------------- LOST RESULTS ---------------- #}
       {% if lost_results %}
       <section>
@@ -57,11 +58,6 @@
             </div>
 
             <div class="item-content">
-              <div class="item-category">
-                <i class="fas fa-tag"></i>
-                {% if item.category %}{{ item.category.name }}{% else %}General{% endif %}
-              </div>
-
               <h3 class="item-title">{{ item.title }}</h3>
               <p class="item-description">
                 {{ item.description|truncatechars:120 }}
@@ -72,9 +68,9 @@
                   <i class="fas fa-map-marker-alt"></i>
                   {{ item.location|default:"Unknown" }}
                 </div>
-                {% if item.date_lost %}
+                {% if item.date_found %}
                 <div class="meta-item">
-                  <i class="fas fa-calendar"></i> {{ item.date_lost|date:"j M" }}
+                  <i class="fas fa-calendar"></i> {{ item.date_lost|date:"j M"}}
                 </div>
                 {% endif %}
               </div>
@@ -87,8 +83,7 @@
           {% endfor %}
         </div>
       </section>
-      {% endif %}
-      {% if found_results %}
+      {% endif %} {% if found_results %}
       <section style="margin-top: 40px">
         <h2 class="section-title">Found Items</h2>
         <div class="items-grid">
@@ -122,7 +117,11 @@
             <div class="item-content">
               <div class="item-category">
                 <i class="fas fa-tag"></i>
-                {% if item.category %}{{ item.category.name }}{% else %}General{% endif %}
+                {% if item.category %}
+                <!--prettier-ignore-->
+                {{ item.category.name }}
+                <!--prettier-ignore-->
+                {% else%}General{% endif %}
               </div>
 
               <h3 class="item-title">{{ item.title }}</h3>
@@ -137,7 +136,9 @@
                 </div>
                 {% if item.date_found %}
                 <div class="meta-item">
-                  <i class="fas fa-calendar"></i> {{ item.date_found|date:"j M" }}
+                  <i class="fas fa-calendar"> <!--prettier-ignore--> </i>
+
+                  {{ item.date_found|date:"D M,Y"}}
                 </div>
                 {% endif %}
               </div>

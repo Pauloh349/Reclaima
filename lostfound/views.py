@@ -302,9 +302,6 @@ def report_found(request):
         form = FoundItemForm()
     return render(request, 'report_found.html', {'form': form})
 
-def lost_item_detail(request, pk):
-    item = get_object_or_404(LostItem, pk=pk)
-    return render(request, 'lost_item_detail.html', {'item': item})
 
 def found_item_detail(request, pk):
     item = get_object_or_404(FoundItem, pk=pk)
@@ -421,16 +418,19 @@ def mark_found_claim(request, pk):
 def get_story_detail(request, story_id):
     """API endpoint to get story details for modal"""
     from django.http import JsonResponse
+    
     try:
         story = SuccessStory.objects.get(id=story_id, is_published=True)
-        data = {
-            'title': story.title,
-            'author_name': story.author_name,
-            'created_at': story.created_at.strftime('%B %d, %Y'),
-            'category_display': story.get_category_display() if hasattr(story, 'get_category_display') else story.category,
-            'content': story.content,
-            'image_url': story.image.url if story.image else '',
-        }
-        return JsonResponse(data)
+
+        return JsonResponse({
+            "id": story.id,
+            "title": story.title,
+            "author_name": story.author_name,
+            "created_at": story.created_at.strftime("%B %d, %Y"),
+            "category": story.get_category_display() if hasattr(story, "get_category_display") else story.category,
+            "content": story.content,
+            "image": story.image.url if story.image else None
+        })
+
     except SuccessStory.DoesNotExist:
-        return JsonResponse({'error': 'Story not found'}, status=404)
+        return JsonResponse({"error": "Story not found"}, status=404)

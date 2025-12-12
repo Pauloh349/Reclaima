@@ -79,7 +79,7 @@ class SearchForm(forms.Form):
 class SuccessStoryForm(forms.ModelForm):
     class Meta:
         model = SuccessStory
-        fields = ['title', 'author_name', 'email', 'content', 'category', 'image', 'allow_featured']
+        fields = ['title', 'author_name', 'email', 'content', 'image', 'allow_featured']
         widgets = {
             'content': forms.Textarea(attrs={'rows': 6, 'placeholder': 'Tell us about your experience...'}),
             'category': forms.Select(attrs={'class': 'form-select'}),

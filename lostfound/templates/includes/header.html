@@ -1,44 +1,423 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/header.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reclaima Header</title>
 
-<header class="main-header">
-  <div class="container header-container">
-    <!-- Logo -->
-    <a href="{% url 'home' %}" class="logo">
-      <div class="logo-icon">
-        <i class="fas fa-search-location"></i>
-      </div>
-      <span class="logo-text">Reclaim<span class="logo-accent">a</span></span>
-    </a>
+    <!-- Font Awesome (you can keep your existing import if you already load it elsewhere) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-    <!-- Navigation -->
-    <nav class="main-nav">
-      <ul class="nav-list">
-        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-        <li><a href="{% url 'found' %}" class="nav-link">Found Items</a></li>
-        <li>
-          <a href="{% url 'howItWorks' %}" class="nav-link">How It Works</a>
-        </li>
-        <li>
-          <a href="{% url 'successStories' %}" class="nav-link"
-            >Success Stories</a
-          >
-        </li>
-      </ul>
-    </nav>
+    <style>
+      /* ---------- Header Base ---------- */
+      .main-header {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        padding: 10px 16px;
+        position: sticky;
+        top: 0;
+        z-index: 1100;
+        width: 100%;
+      }
 
-    <!-- Actions -->
-    <div class="header-actions">
-      <div class="report-dropdown-container">
-        <a href="{% url 'report_found' %}" class="btn-report">
-          Report Found Item
+      a {
+        text-decoration: none;
+        transition: color 0.25s ease, opacity 0.25s ease;
+      }
+
+      /* Hover feel */
+      a:hover {
+        opacity: 0.7;
+      }
+
+      /* ---------- Desktop Navigation Links ---------- */
+      .nav-link {
+        color: #222;
+        font-weight: 600;
+        padding: 8px 4px;
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Underline animation */
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 2px;
+        background: #0d6efd;
+        transition: width 0.25s ease;
+        border-radius: 4px;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* ---------- Drawer Navigation Links ---------- */
+      .drawer-links a {
+        padding: 10px 0;
+        display: block;
+        color: #222;
+        font-size: 17px;
+        font-weight: 600;
+        border-bottom: 1px solid #f0f0f0;
+        transition: padding-left 0.25s ease, background 0.25s ease;
+      }
+
+      /* Drawer hover effect */
+      .drawer-links a:hover {
+        padding-left: 8px;
+        background: #f8f9fa;
+      }
+
+      /* ---------- Report Buttons ---------- */
+      .btn-report,
+      .drawer-report-btn {
+        background: #0d6efd;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 15px;
+        display: inline-block;
+        font-weight: 700;
+        transition: background 0.25s ease, transform 0.2s ease;
+      }
+
+      /* Button hover */
+      .btn-report:hover,
+      .drawer-report-btn:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+      }
+
+      /* Optional subtle shadow */
+      .btn-report,
+      .drawer-report-btn {
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.15);
+      }
+      .btn-report:hover,
+      .drawer-report-btn:hover {
+        box-shadow: 0 6px 14px rgba(13, 110, 253, 0.25);
+      }
+
+      .header-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: #222;
+      }
+
+      .logo-icon {
+        font-size: 22px;
+      }
+      .logo-text {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      .logo-accent {
+        color: #0d6efd;
+      }
+
+      /* Desktop Nav */
+      .main-nav {
+        display: flex;
+      }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        gap: 22px;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn-report {
+        background: #0d6efd;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      /* Mobile Menu Button */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        padding: 6px;
+        color: #333;
+      }
+
+      /* ---------- Drawer & Overlay ---------- */
+      .drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 1090;
+      }
+      .drawer-overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        top: 0;
+        left: -320px; /* hidden by default */
+        width: 320px;
+        max-width: 85%;
+        height: 100%;
+        background: #fff;
+        box-shadow: 2px 0 16px rgba(0, 0, 0, 0.12);
+        padding: 18px;
+        transition: left 0.28s cubic-bezier(0.2, 0.9, 0.2, 1);
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+      }
+      .mobile-drawer.open {
+        left: 0;
+      }
+
+      .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .drawer-header span {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .drawer-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .drawer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .drawer-links a {
+        text-decoration: none;
+        font-size: 17px;
+        color: #222;
+        font-weight: 600;
+      }
+
+      .drawer-report-btn {
+        margin-top: 20px;
+        display: inline-block;
+        padding: 12px;
+        text-align: center;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 700;
+        background: #0d6efd;
+        color: #fff;
+      }
+
+      /* small helper for alignment on desktop */
+      .spacer {
+        flex: 1 1 auto;
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 900px) {
+        .main-nav,
+        .header-actions {
+          display: none;
+        }
+        .mobile-menu-btn {
+          display: block;
+        }
+        .header-container {
+          padding-right: 6px;
+          padding-left: 6px;
+        }
+      }
+
+      /* optional small screens tweak */
+      @media (max-width: 420px) {
+        .logo-text {
+          font-size: 18px;
+        }
+        .mobile-drawer {
+          width: 280px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="main-header">
+      <div class="header-container">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="logo" aria-label="Go to home">
+          <div class="logo-icon"><i class="fas fa-search-location"></i></div>
+          <div class="logo-text">Reclaim<span class="logo-accent">a</span></div>
         </a>
-      </div>
-    </div>
 
-    <!-- Mobile Menu -->
-    <button class="mobile-menu-btn">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
-</header>
+        <!-- Desktop Navigation -->
+        <nav class="main-nav" aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+            <li>
+              <a href="{% url 'found' %}" class="nav-link">Found Items</a>
+            </li>
+            <li>
+              <a href="{% url 'howItWorks' %}" class="nav-link">How It Works</a>
+            </li>
+            <li>
+              <a href="{% url 'successStories' %}" class="nav-link"
+                >Success Stories</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <div class="spacer" aria-hidden="true"></div>
+
+        <!-- Actions (desktop) -->
+        <div class="header-actions" role="region" aria-label="Header actions">
+          <a href="{% url 'report_found' %}" class="btn-report"
+            >Report Found Item</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          class="mobile-menu-btn"
+          aria-label="Open menu"
+          aria-controls="mobile-drawer"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Overlay and Drawer (kept outside header for z-index simplicity) -->
+    <div class="drawer-overlay" tabindex="-1" aria-hidden="true"></div>
+
+    <aside
+      id="mobile-drawer"
+      class="mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+    >
+      <div class="drawer-header">
+        <span>Menu</span>
+        <button class="drawer-close" aria-label="Close menu">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <nav>
+        <ul class="drawer-links">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'found' %}">Found Items</a></li>
+          <li><a href="{% url 'howItWorks' %}">How It Works</a></li>
+          <li><a href="{% url 'successStories' %}">Success Stories</a></li>
+        </ul>
+      </nav>
+
+      <a href="{% url 'report_found' %}" class="drawer-report-btn"
+        >Report Found Item</a
+      >
+    </aside>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const openBtn = document.querySelector(".mobile-menu-btn");
+        const closeBtn = document.querySelector(".drawer-close");
+        const overlay = document.querySelector(".drawer-overlay");
+        const drawer = document.getElementById("mobile-drawer");
+
+        if (!openBtn || !closeBtn || !overlay || !drawer) return;
+
+        function openDrawer() {
+          drawer.classList.add("open");
+          drawer.setAttribute("aria-hidden", "false");
+          openBtn.setAttribute("aria-expanded", "true");
+          overlay.classList.add("show");
+          overlay.setAttribute("aria-hidden", "false");
+          // trap focus: send focus to close button
+          closeBtn.focus();
+          document.body.style.overflow = "hidden"; // prevent background scroll
+        }
+
+        function closeDrawer() {
+          drawer.classList.remove("open");
+          drawer.setAttribute("aria-hidden", "true");
+          openBtn.setAttribute("aria-expanded", "false");
+          overlay.classList.remove("show");
+          overlay.setAttribute("aria-hidden", "true");
+          openBtn.focus();
+          document.body.style.overflow = ""; // restore scrolling
+        }
+
+        openBtn.addEventListener("click", openDrawer);
+        closeBtn.addEventListener("click", closeDrawer);
+        overlay.addEventListener("click", closeDrawer);
+
+        // Close on Escape
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && drawer.classList.contains("open")) {
+            closeDrawer();
+          }
+        });
+
+        // Close drawer when a link inside drawer is clicked (useful to navigate)
+        drawer.addEventListener("click", function (e) {
+          const anchor = e.target.closest("a");
+          if (anchor && anchor.getAttribute("href")) {
+            // allow navigation to occur but close the drawer immediately
+            closeDrawer();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
