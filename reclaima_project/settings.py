@@ -21,10 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%'
+# SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%'
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
 
 ALLOWED_HOSTS = [
     "reclaima.onrender.com",
@@ -46,7 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lostfound'
+    'lostfound',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 MIDDLEWARE = [
@@ -106,6 +113,15 @@ DATABASES = {
     }
 }
 
+# Use Cloudinary for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
 
 # DATABASES = {
 #     'default': {
@@ -160,9 +176,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (user uploaded)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Use BigAutoField by default
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
