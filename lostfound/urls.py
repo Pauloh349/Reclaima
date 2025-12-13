@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views, create_admin
+from . import views
+from .views import create_admin
 
 urlpatterns = [
     path('create-admin/', create_admin),
