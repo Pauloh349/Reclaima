@@ -1,26 +1,6 @@
 from django import forms
 from .models import LostItem, FoundItem, SuccessStory, Category
 
-class LostItemForm(forms.ModelForm):
-    class Meta:
-        model = LostItem
-        fields = [
-            'title', 'category', 'description', 'location', 'date_lost',
-            'brand', 'color', 'model', 'reporter_name', 'reporter_email',
-            'reporter_phone', 'reward', 'image'
-        ]
-        widgets = {
-            'date_lost': forms.DateInput(attrs={'type': 'date'}),
-            'description': forms.Textarea(attrs={'rows': 4}),
-        }
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'form-control'})
-        self.fields['image'].widget.attrs.update({'class': 'form-control-file'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control', 'rows': 4})
-
 class FoundItemForm(forms.ModelForm):
     class Meta:
         model = FoundItem
