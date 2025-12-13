@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "reclaima.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
