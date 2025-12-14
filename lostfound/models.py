@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 # ------------------------
 # Category model
@@ -64,7 +65,7 @@ class FoundItem(models.Model):
     finder_email = models.EmailField(blank=True)
     finder_phone = models.CharField(max_length=30, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="unclaimed")
-    image = models.ImageField(upload_to='items/', null=True, blank=True)  # Cloudinary storage
+    image = CloudinaryField('image', blank=True, null=True) # Cloudinary storage
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     claimed_at = models.DateTimeField(null=True, blank=True)
