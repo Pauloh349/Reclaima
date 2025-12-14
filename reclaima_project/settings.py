@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import cloudinary
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +40,6 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://reclaima.onrender.com",
-     "http://localhost:8000"
 ]
 
 
@@ -103,20 +99,20 @@ WSGI_APPLICATION = 'reclaima_project.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': (
-#             'django.db.backends.postgresql'
-#             if os.environ.get('DB_HOST')
-#             else 'django.db.backends.sqlite3'
-#         ),
-#         'NAME': os.environ.get('DB_NAME', BASE_DIR / 'db.sqlite3'),
-#         'USER': os.environ.get('DB_USER', ''),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-#         'HOST': os.environ.get('DB_HOST', ''),
-#         'PORT': os.environ.get('DB_PORT', ''),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': (
+            'django.db.backends.postgresql'
+            if os.environ.get('DB_HOST')
+            else 'django.db.backends.sqlite3'
+        ),
+        'NAME': os.environ.get('DB_NAME', BASE_DIR / 'db.sqlite3'),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', ''),
+    }
+}
 
 # Use Cloudinary for media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -141,16 +137,16 @@ cloudinary.config(
 print("CLOUDINARY:", CLOUDINARY_STORAGE)
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'reclaima',
-        'USER':'reclaima_user',
-        'PASSWORD':'Weddl6R83mldrsjb7XruFuywLoYgvQve',
-        'HOST':'dpg-d4uqeemmcj7s73da3isg-a',
-        'PORT':'5432'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'reclaima',
+#         'USER':'reclaima_user',
+#         'PASSWORD':'Weddl6R83mldrsjb7XruFuywLoYgvQve',
+#         'HOST':'dpg-d4uqeemmcj7s73da3isg-a',
+#         'PORT':'5432'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
