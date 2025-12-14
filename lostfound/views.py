@@ -440,16 +440,3 @@ def get_story_detail(request, story_id):
     except SuccessStory.DoesNotExist:
         return JsonResponse({"error": "Story not found"}, status=404)
 
-
-# create admin
-def create_admin(request):
-    # check if superuser exists
-    if not User.objects.filter(username="admin").exists():
-        # create superuser with a known password
-        User.objects.create_superuser(
-            username="admin@reclaima",
-            email="admin@reclaima.com",
-            password="reclaima123"
-        )
-        return HttpResponse("Superuser created!")
-    return HttpResponse("Superuser already exists.")
