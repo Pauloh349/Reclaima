@@ -294,15 +294,18 @@ def report_lost(request):
     return render(request, 'report_lost.html', {'form': form})
 
 def report_found(request):
-    if request.method == 'POST':
-        form = FoundItemForm(request.POST, request.FILES)
+    if request.method == "POST":
+        form = FoundItemForm(request.POST, request.FILES)  # ✅ THIS LINE FIXES IT
         if form.is_valid():
-            instance = form.save()
-            messages.success(request, 'Found item reported successfully.')
-            return redirect('found_detail', pk=instance.pk)
+            form.save()
+            messages.success(request, "Found item reported successfully.")
+            return redirect("found_items")
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = FoundItemForm()
-    return render(request, 'report_found.html', {'form': form})
+
+    return render(request, "report_found.html", {"form": form})
 
 
 def found_item_detail(request, pk):
