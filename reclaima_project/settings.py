@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%'
+SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%'
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
+# SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -131,8 +131,8 @@ cloudinary.config(
 )
 
 # Cloudinary media handling
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 print("CLOUDINARY:", CLOUDINARY_STORAGE)
 
