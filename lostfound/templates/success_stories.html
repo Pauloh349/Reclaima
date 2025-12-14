@@ -5,236 +5,237 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Success Stories - Reclaima</title>
-
-    <link rel="stylesheet" href="{% static 'css/success_stories.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/success_stories.css'%}" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f9f9f9;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 1rem;
-      }
-
-      /* ===== GRID ===== */
-      .stories-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-      }
-
-      /* ===== CARD ===== */
-      .story-card {
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-        transition: transform 0.25s ease;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .story-card:hover {
-        transform: translateY(-6px);
-      }
-
-      /* ===== HEADER (AVATAR) ===== */
-      .story-header {
-        display: flex;
-        align-items: center;
-        gap: 0.9rem;
-        padding: 1.25rem 1.25rem 0.5rem;
-      }
-
-      .story-avatar {
-        width: 58px;
-        height: 58px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 3px solid #2c7a7b;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        flex-shrink: 0;
-      }
-
-      .story-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .story-author h4 {
-        margin: 0;
-        font-size: 1rem;
-        color: #222;
-      }
-
-      .story-author span {
-        font-size: 0.8rem;
-        color: #777;
-      }
-
-      /* ===== CONTENT ===== */
-      .story-content {
-        padding: 0.75rem 1.25rem 1rem;
-        color: #444;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        flex-grow: 1;
-      }
-
-      /* ===== FOOTER ===== */
-      .story-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1.25rem 1.25rem;
-      }
-
-      .story-category {
-        background: #edf2f7;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        color: #2c7a7b;
-        font-weight: bold;
-      }
-
-      .cta-button {
-        background: #2c7a7b;
-        color: #fff;
-        border: none;
-        padding: 0.45rem 0.9rem;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.85rem;
-      }
-
-      .cta-button:hover {
-        background: #285e61;
-      }
-
-      /* ===== EMPTY STATE ===== */
-      .no-stories {
-        text-align: center;
-        padding: 3rem;
-        color: #777;
-      }
-
-      /* ===== MODAL ===== */
-      .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.65);
-        z-index: 1000;
-        padding: 1rem;
-      }
-
-      .modal-content {
-        background: #fff;
-        max-width: 800px;
-        margin: auto;
-        border-radius: 14px;
-        padding: 1.5rem;
-        position: relative;
-      }
-
-      .close-modal {
-        position: absolute;
-        top: 10px;
-        right: 14px;
-        font-size: 1.8rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-
-      .modal img {
-        width: 100%;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-      }
-    </style>
   </head>
-
   <body>
     {% include 'includes/header.html' %}
 
+    <!-- Stories Grid -->
     <section class="stories-grid">
       <div class="container">
-        <h2>Recent Success Stories</h2>
-        <p>Real stories from people reunited with their belongings</p>
+        <div class="section-title">
+          <h2>Recent Success Stories</h2>
+          <p>Browse through inspiring reunions from our community members</p>
+        </div>
 
         <div class="stories-container">
           {% for story in stories %}
-          <div class="story-card">
-            <!-- HEADER -->
-            <div class="story-header">
-              <div class="story-avatar">
-                {% if story.image and story.image.url %}
-                <img
-                  src="{{ story.image.url }}"
-                  alt="{{ story.author_name }}"
-                />
-                {% else %}
-                <img
-                  src="https://ui-avatars.com/api/?name={{ story.author_name }}&background=2c7a7b&color=fff"
-                />
-                {% endif %}
-              </div>
-
-              <div class="story-author">
-                <h4>{{ story.author_name }}</h4>
-                <span>{{ story.created_at|date:"M d, Y" }}</span>
-              </div>
-            </div>
-
-            <!-- CONTENT -->
-            <div class="story-content">
-              {{ story.content|truncatechars:200 }}
-            </div>
-
-            <!-- FOOTER -->
-            <div class="story-footer">
-              <span class="story-category">
-                {{ story.get_category_display }}
-              </span>
-
-              <button
-                class="cta-button view-full-story"
-                data-story-id="{{ story.id }}"
+          <div class="story-card" data-story-id="{{ story.id }}">
+            <div class="story-image-small">
+              {% if story.image and story.image.url %}
+              <img
+                src="{{ story.image.url }}"
+                alt="{{ story.title }}"
+                onerror="this.style.display='none'"
+              />
+              {% else %}
+              <div
+                style="
+                  height: 200px;
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                "
               >
-                Read
-              </button>
+                <i class="fas fa-heart" style="font-size: 3rem"></i>
+              </div>
+              {% endif %}
             </div>
+            <div class="story-content">
+              <p>{{ story.content|truncatechars:200 }}</p>
+            </div>
+            <div class="story-footer">
+              <div class="author-info">
+                <!-- Creative Profile Avatar -->
+                <div
+                  class="profile-avatar avatar-style-{{ forloop.counter|add:'1'|divisibleby:'5'|yesno:'1,2,3,4,5' }}"
+                >
+                  {% if story.author_name %}
+                  <span class="avatar-icon"
+                    >{{ story.author_name.0|upper }}</span
+                  >
+                  {% if story.author_name|length > 1 %}
+                  <span>{{ story.author_name.split.1.0|upper }}</span>
+                  {% endif %} {% else %}
+                  <span class="avatar-icon"><i class="fas fa-user"></i></span>
+                  {% endif %}
+                  <div class="avatar-pattern"></div>
+                  <div class="avatar-ring"></div>
+                </div>
+                <div class="author-details">
+                  <h4>{{ story.author_name }}</h4>
+                  <p>{{ story.created_at|date:"M d, Y" }}</p>
+                </div>
+              </div>
+              <div class="story-category-badge">
+                {{ story.get_category_display }}
+              </div>
+            </div>
+            <button
+              class="cta-button view-full-story"
+              data-story-id="{{ story.id }}"
+            >
+              Read Full Story
+              <i class="fas fa-arrow-right" style="margin-left: 8px"></i>
+            </button>
           </div>
           {% empty %}
-          <div class="no-stories">
-            <i class="fas fa-heart"></i>
-            <h3>No success stories yet</h3>
-            <p>Be the first to share your reunion experience.</p>
+          <div
+            class="no-stories"
+            style="text-align: center; padding: 3rem; grid-column: 1 / -1"
+          >
+            <div
+              style="
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+              "
+            >
+              <i
+                class="fas fa-book-open"
+                style="font-size: 2.5rem; color: white"
+              ></i>
+            </div>
+            <h3 style="color: #2d3748; margin-bottom: 1rem">
+              No Success Stories Yet
+            </h3>
+            <p style="color: #718096; margin-bottom: 2rem">
+              Be the first to share your reunion story!
+            </p>
+            <a
+              href="#share-story"
+              class="cta-button"
+              style="display: inline-block; width: auto; padding: 0.75rem 2rem"
+              >Share Your Story</a
+            >
           </div>
           {% endfor %}
         </div>
       </div>
     </section>
 
-    <!-- MODAL -->
+    <!-- Share Your Story Form -->
+    <section class="share-story" id="share-story">
+      <div class="container">
+        <h2>Share Your Success Story</h2>
+        <p>
+          Have you been reunited with a lost item through Reclaima? Share your
+          story to inspire others!
+        </p>
+        <form
+          method="POST"
+          action="{% url 'submit_success_story' %}"
+          class="share-form"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="privacy-note">
+            <i class="fas fa-info-circle"></i> Your story may be featured. We'll
+            never share your contact info without permission.
+          </div>
+
+          <div class="form-group">
+            <label for="author_name">Your Name *</label>
+            <input
+              type="text"
+              id="author_name"
+              name="author_name"
+              required
+              value="{{ form.author_name.value|default:'' }}"
+              placeholder="Enter your full name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Your Email *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              value="{{ form.email.value|default:'' }}"
+              placeholder="Enter your email address"
+            />
+          </div>
+          <div class="form-group">
+            <label for="title">Story Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              value="{{ form.title.value|default:'' }}"
+              placeholder="Give your story a compelling title"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="content">Your Story *</label>
+            <textarea
+              id="content"
+              name="content"
+              required
+              rows="6"
+              placeholder="Tell us your story in detail..."
+            >
+{{ form.content.value|default:'' }}</textarea
+            >
+          </div>
+          <div class="form-group">
+            <label for="image">Upload Photo (Optional)</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onchange="previewImage(this)"
+            />
+            <div id="uploadPreview" class="avatar-preview"></div>
+          </div>
+
+          <button type="submit">
+            <i class="fas fa-paper-plane" style="margin-right: 8px"></i> Submit
+            Your Story
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Story Detail Modal -->
     <div class="modal" id="storyModal">
       <div class="modal-content">
-        <button class="close-modal" id="closeModal">&times;</button>
-        <img id="modalImage" src="" alt="" />
-        <h3 id="modalTitle"></h3>
-        <p id="modalMeta"></p>
-        <div id="modalContent"></div>
+        <div class="modal-header">
+          <h2 id="modalStoryTitle"></h2>
+          <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="story-image-large">
+            <img id="modalImage" src="" alt="Story image" />
+          </div>
+
+          <div class="modal-author-info">
+            <div class="modal-avatar" id="modalAvatar"></div>
+            <div class="modal-author-details">
+              <h3 id="modalAuthor"></h3>
+              <p>
+                <i class="fas fa-calendar-alt"></i> <span id="modalDate"></span>
+              </p>
+              <p><i class="fas fa-tag"></i> <span id="modalCategory"></span></p>
+            </div>
+          </div>
+
+          <div class="story-content-full" id="modalContent"></div>
+        </div>
       </div>
     </div>
 
@@ -242,35 +243,148 @@
 
     <script>
       const modal = document.getElementById("storyModal");
+      const closeModalBtn = document.getElementById("closeModal");
+
+      // Function to generate avatar HTML
+      function generateAvatar(name, styleIndex) {
+        const styles = [
+          "avatar-style-1",
+          "avatar-style-2",
+          "avatar-style-3",
+          "avatar-style-4",
+          "avatar-style-5",
+        ];
+        const style = styles[styleIndex % styles.length];
+
+        let initials = "";
+        if (name) {
+          initials = name[0].toUpperCase();
+          const nameParts = name.split(" ");
+          if (nameParts.length > 1) {
+            initials += nameParts[nameParts.length - 1][0].toUpperCase();
+          }
+        }
+
+        return `
+                <div class="profile-avatar ${style}" style="width: 70px; height: 70px; font-size: 1.5rem;">
+                    ${
+                      initials
+                        ? initials
+                        : '<i class="fas fa-user avatar-icon"></i>'
+                    }
+                    <div class="avatar-pattern"></div>
+                    <div class="avatar-ring"></div>
+                </div>
+            `;
+      }
 
       document.querySelectorAll(".view-full-story").forEach((btn) => {
         btn.addEventListener("click", async () => {
-          const id = btn.dataset.storyId;
-          const res = await fetch(`/stories/${id}/`);
-          const data = await res.json();
+          const storyId = btn.getAttribute("data-story-id");
 
-          document.getElementById("modalTitle").textContent = data.title;
-          document.getElementById(
-            "modalMeta"
-          ).textContent = `${data.author_name} • ${data.created_at}`;
-          document.getElementById("modalContent").innerHTML =
-            data.content.replace(/\\n/g, "<br>");
+          try {
+            const response = await fetch(`/stories/${storyId}/`);
+            const data = await response.json();
 
-          document.getElementById("modalImage").src =
-            data.image ||
-            "https://ui-avatars.com/api/?name=" + data.author_name;
+            // Fill modal
+            document.getElementById("modalStoryTitle").textContent = data.title;
+            document.getElementById("modalAuthor").textContent =
+              data.author_name;
+            document.getElementById("modalDate").textContent = new Date(
+              data.created_at
+            ).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            document.getElementById("modalCategory").textContent =
+              data.category;
 
-          modal.style.display = "block";
+            // Set avatar in modal
+            const modalAvatar = document.getElementById("modalAvatar");
+            const styleIndex = Math.floor(Math.random() * 5);
+            modalAvatar.outerHTML = generateAvatar(
+              data.author_name,
+              styleIndex
+            );
+
+            // Format content with paragraphs
+            const contentDiv = document.getElementById("modalContent");
+            const paragraphs = data.content
+              .split("\n")
+              .filter((p) => p.trim() !== "");
+            contentDiv.innerHTML = paragraphs
+              .map((p) => `<p>${p}</p>`)
+              .join("");
+
+            // Set image with fallback
+            const modalImage = document.getElementById("modalImage");
+            if (data.image) {
+              modalImage.src = data.image;
+              modalImage.style.display = "block";
+            } else {
+              modalImage.style.display = "none";
+            }
+
+            // Show modal
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+          } catch (err) {
+            console.error("Error fetching story:", err);
+          }
         });
       });
 
-      document.getElementById("closeModal").onclick = () => {
+      closeModalBtn.addEventListener("click", () => {
         modal.style.display = "none";
-      };
+        document.body.style.overflow = "auto";
+      });
 
-      window.onclick = (e) => {
-        if (e.target === modal) modal.style.display = "none";
-      };
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      });
+
+      // Image preview function
+      function previewImage(input) {
+        const preview = document.getElementById("uploadPreview");
+        preview.innerHTML = "";
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            preview.appendChild(img);
+
+            const label = document.createElement("div");
+            label.textContent = "Preview:";
+            label.style.fontWeight = "600";
+            label.style.color = "#4a5568";
+            label.style.marginBottom = "0.5rem";
+            preview.insertBefore(label, preview.firstChild);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      // Add hover effects to all avatars
+      document.addEventListener("DOMContentLoaded", function () {
+        const avatars = document.querySelectorAll(".profile-avatar");
+        avatars.forEach((avatar) => {
+          avatar.addEventListener("mouseenter", function () {
+            this.style.transform = "scale(1.1) rotate(5deg)";
+          });
+
+          avatar.addEventListener("mouseleave", function () {
+            this.style.transform = "scale(1) rotate(0deg)";
+          });
+        });
+      });
     </script>
   </body>
 </html>
