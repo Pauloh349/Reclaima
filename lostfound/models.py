@@ -33,7 +33,7 @@ class LostItem(models.Model):
     reporter_phone = models.CharField(max_length=30, blank=True)
     reward = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="lost")
-    image = CloudinaryField('image', blank=True, null=True)  # ✅ Use Cloudinary for LostItem too
+    image = CloudinaryField('image',  blank=True, null=True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     claimed_at = models.DateTimeField(null=True, blank=True)
@@ -62,7 +62,7 @@ class FoundItem(models.Model):
     finder_email = models.EmailField(blank=True)
     finder_phone = models.CharField(max_length=30, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="unclaimed")
-    image = CloudinaryField('image', blank=True, null=True)
+    image = CloudinaryField('image',folder='found-items', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     claimed_at = models.DateTimeField(null=True, blank=True)
@@ -94,7 +94,7 @@ class SuccessStory(models.Model):
     email = models.EmailField(blank=True, null=True)
     content = models.TextField()
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
-    image = CloudinaryField('image', blank=True, null=True)  # ✅ Use Cloudinary here as well
+    image = CloudinaryField('image', folder='success-stories', blank=True, null=True)
     item_url = models.URLField(blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
