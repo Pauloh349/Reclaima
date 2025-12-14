@@ -299,7 +299,7 @@ def report_found(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Found item reported successfully.")
-            return redirect("found_items")
+            return redirect("found")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
