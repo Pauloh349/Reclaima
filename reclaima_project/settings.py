@@ -130,6 +130,7 @@ cloudinary.config(
     secure=True
 )
 
+print("CLOUDINARY:", CLOUDINARY_STORAGE)
 
 
 # DATABASES = {
