@@ -130,7 +130,7 @@
       {% endfor %} {% endif %}
 
       <form method="post" enctype="multipart/form-data" id="reportFoundForm">
-        {% csrf_token %} {{form.as_p}} {% for field in form.visible_fields %}
+        {% csrf_token %} {% for field in form.visible_fields %}
         <div class="form-group">
           {{ field.label_tag }} {{ field }} {% if field.help_text %}
           <small class="help-text">{{ field.help_text }}</small>

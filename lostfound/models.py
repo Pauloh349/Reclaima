@@ -36,7 +36,7 @@ class LostItem(models.Model):
     reporter_phone = models.CharField(max_length=30, blank=True)
     reward = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="lost")
-    image = models.ImageField(upload_to='items/', null=True, blank=True)  # Cloudinary handles storage
+    image = CloudinaryField('image', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     claimed_at = models.DateTimeField(null=True, blank=True)
