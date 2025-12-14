@@ -130,6 +130,10 @@ cloudinary.config(
     secure=True
 )
 
+# Cloudinary media handling
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 print("CLOUDINARY:", CLOUDINARY_STORAGE)
 
 
