@@ -31,10 +31,6 @@ SECRET_KEY = 'django-insecure-u48#**p)tiho32=$zw6i&c!)9-%f8ca0-)f+77orhjk0qfh4-%
 # DEBUG = True
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
-
 
 ALLOWED_HOSTS = [
     "reclaima.onrender.com",
